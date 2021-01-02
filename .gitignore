@@ -1,0 +1,6 @@
+
+*.class
+*.class
+*.json
+Python_Scripts/get-pip.py
+Python_Scripts/pwd.py
