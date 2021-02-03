@@ -3,9 +3,10 @@
 ## Semana 01
 
 leitura de vars:
-´´´c
+
+```c
 scanf("%d", &a)
-´´´
+```
 
 Obs de alocação de memória:
-    Ao se alocar uma var - int var -, há a necessidade de ser inicialiar (var = 0), ou em tempo de execução será utilizado o valor para aquela var aponta
+    Ao se alocar uma var ```int var``` , há a necessidade de ser inicialiar (ex, ```var = 0```) ou em tempo de execução será utilizado o valor para aquela var aponta
