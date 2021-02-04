@@ -36,12 +36,13 @@ int main()
             menor = aux;
         }
         soma += aux;
+        aux = 0;
     }
     
     media = soma / n;
-    printf("%d", menor);
-    printf("%d", maior);
-    printf("%d", media);
+    printf("%d\n", menor);
+    printf("%d\n", maior);
+    printf("%d\n", media);
 
     return 0;
 }
