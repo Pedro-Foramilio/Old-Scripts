@@ -10,17 +10,18 @@
 
 int main()
 {
-    int soma, aux, n, media, maior, menor;
-    soma = 0;
+    int aux, maior, menor, i, n;
+    float soma, media;
+    soma = 0.0;
     aux = 0;
     media = 0;
 
     scanf("%d", &n);
     
-    for (int i=0; i < n; i++)
+    for (i=0; i < n; i++)
     {
         scanf("%d", &aux);
-        if (n == 0)
+        if (i == 0)
         {
             maior = aux;
             menor = aux;
@@ -39,10 +40,10 @@ int main()
         aux = 0;
     }
     
-    media = soma / n;
+    media = (float) soma / n;
     printf("%d\n", menor);
     printf("%d\n", maior);
-    printf("%d\n", media);
+    printf("%.2f\n", media);
 
     return 0;
 }
