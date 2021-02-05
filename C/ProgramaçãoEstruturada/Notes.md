@@ -84,4 +84,3 @@ Obs de alocação de memória:
 ---
 
 ## Semana 02
-    
