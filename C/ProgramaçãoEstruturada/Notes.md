@@ -1,6 +1,6 @@
 # Anotações das aulas
 
-## Semana 01
+## Semana 01 - Introdução
 
 leitura de vars:
 
@@ -83,4 +83,118 @@ Obs de alocação de memória:
     ```
 ---
 
-## Semana 02
+## Semana 02 - Funções e Vetores
+
+- **Vetor | Basics**
+
+    obs manhazinha:
+    vetor ocupa ``` qtd_elementos * sizeof(<tipo>)```
+
+    - Declarar Vetor:
+    ```c
+    //<tipo> <nome>[tamanho];
+
+    //exemplos
+
+
+    int idades[10];
+    double vetor2[5];
+    int valores[3] = {10, 20, 30};
+    ```
+    
+    - Avessar valores em um vetor:
+    ```c
+    int vetor[5];
+    vetor[4]; //acessa elemento 4 (i=0 to n)
+    ```
+
+    - Ler elementos em um vetor
+
+    ```c
+    int idade[10];
+    int i;
+
+    for (i = 0; i < 10; i++) {
+        scanf("%d", &idade[i]);
+    }
+    ```
+
+- **Funções**
+    Estrutura basica:
+    ```
+        tipoRetorno nomeFuncao(<listaParametros>){ ... }
+    ```  
+
+    - **PASSAGEM DE PARÂMETROS**
+        Todo parâmetro é passado por **VALOR**.  
+        Para passar um argumento por *referência* é preciso passar o valor do **ENDEREÇO DE MEMÓRIA (PONTEIRO)**.  
+
+    - Procedimentos
+        Um procedimento é uma função que *Não retorna valor*  
+        Usamos ```void``` para indicar isto  
+        Exemplo:
+        ```c
+            void mostraQuadrado(int num) {
+                printf("%d\n", num * num);
+                //observe que não há return
+            }
+        ``` 
+    - Ordem declarativa
+        Funções devem ser declaradas antes de serem chamadas (therefore, antes da main).
+        ```c
+            int calculaQuadrado(int n) {
+                ...
+            }
+
+            int main() {
+                ...
+                calculaQuadrado(4);
+                ...
+            }
+            
+        ```
+        EXCEPT se os "protótipos" forem declarados antes, então pode-se definir em whatever ordem.
+        ```c
+            int calculaQuadrado(int num);
+
+            int main() {
+                ...
+                calculaQuadrado(3);
+                ...
+            }
+
+            int calculaQuadrado(int n) {
+                ...
+            }
+
+
+        ```
+    - Escopo das Variáveis
+        Escopo global: devem ser declaradas fora da main.    
+
+    - **Vetores como argumento**
+
+        Vetores como argumentos de funções são *pass by reference*.  
+        O identificador de um vetor representa o endereço do primeiro elemento.  
+        ```printf("%p\n", vetor)``` retornará o mesmo valor que ```printf("%p\n", &vetor[0])```. Por esta razão, funcao(vetor) passa um vetor *by ref*
+
+        ```c
+        void muda_valor(int vetor[]) {
+            vetor[0] = 90;
+        }
+
+        int main() {
+            int v[3] = {200, 500, 300};
+            printf("%d %d %d\n", v[0], v[1], v[2]); //200 500 300
+            nuda_valor(v);
+            printf("%d %d %d\n", v[0], v[1], v[2]); //90 500 300
+            
+            return 0;
+        }
+        ```
+    
+
+
+
+
+
