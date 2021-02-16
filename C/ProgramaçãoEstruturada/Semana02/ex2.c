@@ -19,6 +19,9 @@ Importante: submeta apenas a função. Não inclua o main, não use printf/puts,
 
 double potencia(double base, double expoente) {
     double retorno = 1;
+    if (expoente == 0) {
+        return (double) 1.0;
+    }
     for (int i = 0; i < expoente; i++) {
         retorno = (double) retorno * base;
     }
@@ -26,10 +29,10 @@ double potencia(double base, double expoente) {
 }
 
 double logaritmo(double x, int n) {
-    double resultado = x;
+    double resultado = 0;
 
-    for (int i=1; i < n; i++) {
-        resultado += potencia(-1, i) * potencia(x, (i+1)) * (1/((float) (i+1)) ); 
+    for (int i=0; i < n; i++) {
+        resultado += potencia(-1, i) * potencia((x-1), (i+1)) * (1/((double) (i+1)) ); 
     }
 
     return resultado;
