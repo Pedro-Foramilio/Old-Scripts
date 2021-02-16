@@ -15,9 +15,24 @@ double logaritmo(double x, int n);
 Importante: submeta apenas a função. Não inclua o main, não use printf/puts, math.h e vetor.
 */
 
-#include "logaritmo.h"
+//#include "logaritmo.h"
+
+double potencia(double base, double expoente) {
+    double retorno = 1;
+    for (int i = 0; i < expoente; i++) {
+        retorno = (double) retorno * base;
+    }
+    return retorno;
+}
 
 double logaritmo(double x, int n) {
-    // Codigo da funcao aqui
+    double resultado = x;
+
+    for (int i=1; i < n; i++) {
+        resultado += potencia(-1, i) * potencia(x, (i+1)) * (1/((float) (i+1)) ); 
+    }
+
+    return resultado;
+    
 }
 
