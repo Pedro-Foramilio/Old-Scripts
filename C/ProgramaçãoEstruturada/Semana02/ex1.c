@@ -18,6 +18,22 @@ Importante: submeta apenas a função. Não inclua o main.
 #include "imprime_vetor.h"
 
 void imprime_vetor(int vetor[], int qtd) {
-  // Codigo da funcao aqui
+    int linha = 1;
+    int contador = 0;
+    while (contador < qtd) {
+        for (int i = 0; i < linha; i++) {
+            if (contador == qtd) {
+                break;
+            }
+            
+            if (i == linha-1) {
+                printf("%d\n", vetor[contador]);
+            } else {
+                printf("%d ", vetor[contador]);
+            }
+            contador++;
+        }
+        linha++;
+    }
 }
 
