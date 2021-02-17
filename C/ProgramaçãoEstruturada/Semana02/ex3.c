@@ -16,3 +16,32 @@ Digite: 7
 Digite: -1
 */
 
+#include <stdio.h>
+
+int main() {
+
+    int input = 0, contador = 0;
+    int vetor[100];
+
+    while (input != -1) {
+        scanf("%d", &input);
+        if (input == -1) {
+            break;
+        }
+
+        vetor[contador] = input;
+
+        for (int i=0; i <= contador; i++) {
+            if (i == contador) {
+                printf("%d", vetor[i]);
+            } else {
+                printf("%d ", vetor[i]);
+            }
+        }
+        printf("\n");
+        contador++;
+    }
+
+
+    return 0;
+}
