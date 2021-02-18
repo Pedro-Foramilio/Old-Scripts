@@ -17,9 +17,32 @@ Formato da entrada no caso de teste (que aparece ao avaliar a atividade):
 11 22 22 33 44 44 55 (elementos do vetor)
 */
 
-#include "remover_duplicados.h"
+//#include "remover_duplicados.h"
 
 void remover_duplicados(int vetor[], int qtd) {
-  // Codigo da funcao aqui
-}
 
+  for (int i = 0; i < qtd; i++) {
+    for (int j = 0; j < qtd; j++) {
+
+      if (j == i) {
+        continue;
+      }
+
+      if (vetor[j] == vetor[i]) {
+        vetor[j] = -1;
+      }
+    }
+  }
+
+  int aux = 0;
+  for (int i = qtd; i > 0; i--) {
+    for (int j = 0; j < i -1; j++) {
+      if (vetor[j] == -1) {
+        aux = vetor[j];
+        vetor[j] = vetor[j+1];
+        vetor[j+1] = aux;
+        aux = 0;
+      }
+    }
+  }
+}
