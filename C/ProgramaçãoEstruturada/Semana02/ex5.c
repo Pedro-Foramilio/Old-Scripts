@@ -15,8 +15,25 @@ Formato da entrada no caso de teste (que aparece ao avaliar a atividade):
 11 22 22 33 44 44 55 -1 -1 -1 -1 (elementos do vetor)
 */
 
-#include "duplica_impares.h"
+//#include "duplica_impares.h"
+
+int ehImpar(int numero) {
+    return (numero % 2 != 0);
+}
 
 void duplica_impares(int vetor[], int qtd) {
-    // Codigo da funcao aqui
+    int contador = 0;
+    for (int i = 0; i < qtd; i++) {
+        if (contador == qtd){break;}
+        if (ehImpar(vetor[contador])) {
+            for (int j = qtd-1; j > contador; j--) {
+                vetor[j] = vetor[j-1];
+            }
+            vetor[contador+1] == vetor[contador];
+            contador++;
+        }
+        contador++;
+    }
+
 }
+
