@@ -18,6 +18,20 @@ Digite: -1
 
 #include <stdio.h>
 
+void bubbleSort(int v[], int tamanho) {
+    int aux = 0;
+    for (int i = tamanho; i > 0; i--) {
+        for (int j = 0; j < i -1; j++) {
+            if (v[j] > v[j+1]) {
+                aux = v[j];
+                v[j] = v[j+1];
+                v[j+1] = aux;
+                aux = 0;
+            }
+        }
+    }  
+}
+
 int main() {
 
     int input = 0, contador = 0;
@@ -30,6 +44,8 @@ int main() {
         }
 
         vetor[contador] = input;
+
+        bubbleSort(vetor,contador+1);
 
         for (int i=0; i <= contador; i++) {
             if (i == contador) {
