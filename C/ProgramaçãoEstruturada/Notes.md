@@ -193,8 +193,44 @@ Obs de alocação de memória:
         }
         ```
     
+---
 
+## Semana 03 - Strings e Matrizes
 
+- **Strings**
+    Vetor de char: ``` char nome[n] = <string> ```  
+    Impressão: ```printf("%s\n", string)```  
+    String Prof. Paulo: [ P ][ r ][ o ][ f ][ . ][ ][ P ][ a ][ u ][ l ][ o ][ \0 ]  
+    - Carcter final '\0'
+        ```c
+        char string[6];
+        string[0] = 'U';
+        string[1] = 'F';
+        string[2] = 'A';
+        string[3] = 'B';
+        string[4] = 'C';
+        string[5] = '\0'
+        ```
+    
+    - Leitura de Strings
+        ```scanf("%s", universidade)```
+        Repare na ausência do &, isso porque ao usar o identificador do vetor sem os colchetes, ele representa o *endereço do primeiro elemento*  
+        ```printf("%p\n", universidade)``` imprime o mesmo que ```printf("%p\n", &universidade[0])```  
+        
+    - gets: lê uma string
+    - puts: imprime uma string e quebra a linha.
 
-
-
+    ```c
+    char texto[20];
+    gets(texto);
+    puts(texto);
+    ```
+    - *fgets*: limimta a quantidade de caracteres lida:
+    ```c
+    char frase[6]; //o sexto carctere sempre é o final da string \0, entao a frase tem na real 5 caracteres
+    fgets(frase, 6, stdin); //stdin indica que a função é do teclado
+    puts(frase);
+    ```
+    - scanf vs fgets:
+        scanf para de ler uma string ao encotrar espaço, fgets não.
+    
