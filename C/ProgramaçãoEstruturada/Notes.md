@@ -234,3 +234,11 @@ Obs de alocação de memória:
     - scanf vs fgets:
         scanf para de ler uma string ao encotrar espaço, fgets não.
     
+- **Matrizes**
+    - Declarar Matriz ```<tipo> <nome>[tam1][tam2];```
+
+    - Passagem de Matriz como parâmetro
+        Necessário especificar ao menos a segunda dimensão.  
+        ```void funcao(int nColunas, double m[][nColunas])```  
+        ```void funcao(int nLinhas, nColunas, double m[nLinhas][nColunas])```
+
