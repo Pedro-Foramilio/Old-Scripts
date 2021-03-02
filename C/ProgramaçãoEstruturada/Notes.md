@@ -242,3 +242,93 @@ Obs de alocação de memória:
         ```void funcao(int nColunas, double m[][nColunas])```  
         ```void funcao(int nLinhas, nColunas, double m[nLinhas][nColunas])```
 
+---
+
+## Semana 04 - Recursão  
+
+Muitos problemas podem ser resolvidos **combinando soluções de instancias menores** desses mesmos problemas.
+
+- Recursão vai ocorrer por meio da definição de funções
+    ```c
+    int fatorial(n) {
+        if (n == 0) //caso base
+            return 1;
+        else
+            return n * fatorial(n-1);
+    }
+    ```
+- Uma função recursiva deve possuir duas partes básicas
+    - **Caso Base**
+    - **Chamada Recursiva**: pelo menos uma chamada a si mesma
+    Chamadas recursivas devem reduzir a instância em direção ao case base. 
+
+- **Iteração x Recursão**
+    Toda função pode ser escrita usando recursão (sem o uso de iteração). A recíproca é verdadeira.
+    - *Exemplo: some primeiros n^k (1^k + 2^k + ... + n^k)
+    ```c
+    #include <math.h> //gcc -lm para linkar
+
+    int iterativa(int k, int n) {
+        int soma = 0;
+        int i;
+        for (i = 1; i <= n; i++) {
+            soma += lround(pow(i, k));
+        }
+        return soma;
+    }
+
+    int recursiva(int k, int n) {
+        if (n == 1)
+            return 1;
+        else
+            return lround(pow(n, k)) + recursiva(k, n-1);
+    }
+
+    ```
+
+- **Exemplos Adicionais**
+    -*Fibonacci*
+    ```c
+    int fib(int n) {
+        if (n == 0) return 0;
+        if (n == 1) return 1;
+        return fib(n-1) + fib(n-2);
+    }
+    ```
+    -*Somar elementos de um vetor*
+    ```c
+    double iterativo(double v[], int n) {
+        double soma = 0.0;
+        int i;
+        for (int i = 0; i < n; i++) {
+            soma += v[i];
+        }
+        return soma;
+    }
+
+    double recursivo(double v[], int n) {
+        if (n == 0) return 0.0;
+
+        return v[n-1] recursiva(vetor, n-1);
+    }
+    ```
+    -*Verificar se X está em um vetor*
+    ```c
+    int encontraX(int v[],int n, int numero) {
+        if (n == 0) return 0;
+        if (v[n-1] == numero) return 1;
+        return encontrarX(v[], n-1, numero);
+    }
+
+    ```
+    -*Menor elemento do vetor*
+    ```c
+    int menorElemento(int v[], int n) {
+        if (n == 1) return v[0];
+        
+        int menor = menorElemento(v, n-1);
+        int atual = v[n-1];
+        return (atual < menor ? atual : menor);
+    }
+
+    ```
