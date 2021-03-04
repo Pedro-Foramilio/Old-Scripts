@@ -12,7 +12,33 @@ Não inclua o main e não use printf/puts nas funções submetidas.
 */
 
 //#include "contafreq.h"
+#include <stdio.h>
 
 int contafreq(int num, int digito) {
+    if (num == 0) return 0;
+    
+    int qtdDigitos = 0;
+    int numero = num;
+    while (numero != 0) {
+        numero = numero / 10;
+        qtdDigitos++;
+    }
+    
+    int divisor = 1;
+    for (int i = 0; i < qtdDigitos-1; i++) {
+        divisor = divisor * 10;
+    }
 
+    if (digito == num / divisor)
+        return 1 + contafreq(num%divisor, digito);
+    else
+        return 0 + contafreq(num%divisor, digito);
+    
+  
+}
+
+int main() {
+    int contagem = contafreq(122322, 2);
+    printf("contagem = %d\n", contagem);
+    return 0;
 }
