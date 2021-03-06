@@ -19,7 +19,21 @@ Importante: submeta apenas a função. Não use variáveis globais. Não inclua 
 */
 
 //#include "multiplicacao.h"
+#include <stdio.h>
 
 int multiplicacao_russa(int a, int b) {
+    if (a == 1)
+        return b;
 
+    if (a % 2 != 0)
+        return b + multiplicacao_russa( (int) a/2, 2 * b);
+    else
+        return multiplicacao_russa((int) a/2, 2 * b);
+}
+
+int main() {
+
+    printf("%d\n", multiplicacao_russa(123, 21));
+
+    return 0;
 }
