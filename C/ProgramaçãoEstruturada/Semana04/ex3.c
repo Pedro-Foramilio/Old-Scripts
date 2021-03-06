@@ -16,7 +16,25 @@ Não inclua o main e não use printf/puts nas funções submetidas.
 */
 
 //#include "superfatorial.h";
+#include <stdio.h>
+
+long fatorial(int n) {
+    if (n == 0)
+        return 1;
+    else
+        return n * fatorial(n-1);
+}
 
 long superfatorial(int n) {
+    if (n == 0)
+        return 1;
+    else 
+        return fatorial(n) * superfatorial(n-1);
 
+}
+
+int main() {
+    printf("%ld\n", superfatorial(4));
+
+    return 0;
 }
