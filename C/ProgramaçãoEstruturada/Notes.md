@@ -332,3 +332,97 @@ Muitos problemas podem ser resolvidos **combinando soluções de instancias meno
     }
 
     ```
+---
+
+# Semana 05 - Ponteiros | Parte 1
+
+- **Conceitos de Memória**
+    Estrutura de um programa carregado em memória:
+        Instruções | Dados Globais e Estáticos | *heap*--><--*Pilha*  
+  
+    - Instruções: código binário do programa
+    - Dados: variáveis globais e estáticas (existem durante toda a execução do programa)
+    - **Heap**: variáveis criadas por alocação dinâmica
+    - **Pilha**: variáveis locais criadas para a execução de uma função
+                  (são removidas após o término de uma função)
+    
+    - **Comando *size***
+        Comando de terminal que mostra o tamanho que ocupada um programa.  
+        *size programa.exe*  
+        - text: Código
+        - data: Área com dados inicializados
+        - bss: Dados**globais** que não foram inicializados (são inicializados como zero)
+        - dec e hex: soma dos valores acima (ou em dec, ou em hex)
+    - **Memória**
+    Podemos entender a memória como um vetor de bytes devidamente endereçados.  
+    | 0x1051 | 0x1052 | 0x1053 | 0x1054 | 0x1055 | 0x1056 | 0x1057 |
+    
+    char temp = 2;
+    &temp -> 0x1051 (que dentro, contem 00000010)
+    int soma = 6;
+    &soma -> 0x1055 que contem 00000000 00000000 00000000 00000110
+
+- **Ponteiros**
+
+    - Variável que armazena *endereço de memória*: ```char *ponteiro1; int *ponteiro2; ```
+    Ponteiro1 aponta pra uma variável tipo char. Ponteiro2 é ponteiro para inteiro.
+    ```c
+    int n = 507;
+    int *ptr; //declara um ponteiro de uma variável do tipo int
+    ptr = &n; //faz o ponteiro ptr guardar o endereço de memória de n;
+    //ptr APONTA para o endereço de memória de n, mas ele tem seu próprio endereço de memória individual.
+    ```
+    - __Como acessar o valor de VAR a partir do endereço de memória (*VAR)__
+    ```c
+    int n = 507; //declaraçao de var int
+    int *ptr = &n; //declaração de ponteiro apontando para endereço de n
+    *ptr = *ptr + 1; //altera valor da VARIAVEL que ptr aponta;
+
+    printf("%d\n", n); // 508
+    printf("%d\n", *ptr); // 508
+    ```
+
+- **Pass By Reference**
+
+    - Para pasar parâmetros por refência é necessário passar **ponteiros** por valor
+
+    ```c
+    void mudaValor_a(double param) {
+        param = 99;
+        printf("A=%lf\n", param);
+    }
+
+    void mudaValor_b(double *param) {
+        *param = 99;
+        printf("B=%lf\n", *param);
+    }
+
+    int main() {
+
+        double n = 507;
+        printf("%lf\n", n); // 507.000000
+        mudaValor_a(n); // A=99.000000
+        printf("%lf\n", n);// 507.000000
+        mudaValor_b(&n);// 99.000000
+        printf("%lf\n", n);// 99.000000
+
+        return 0;
+    }
+    ```
+    - Se já possuímos um endereço de memória, podemos passar diretamente (sem &):
+    ```c
+    int num;
+    int *pt1 = &num;
+
+    scanf("%d", pt1); //lembrando que scanf recebe um endereço de memória
+    ```
+    - "Retornando" mais de um valor (procedimentos):  
+    Usa-se Parâmentros por referência:
+    ```c
+    void divide(int dividendo, int divisor. int *quociente, int *resto) {
+        *quociente = dividendo / divisor;
+        *resto = dividendo % divisor;
+    }
+    ```
+- **Alocação Dinâmica**
+
