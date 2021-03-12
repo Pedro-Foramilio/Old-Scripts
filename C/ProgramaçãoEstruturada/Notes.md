@@ -426,3 +426,63 @@ Muitos problemas podem ser resolvidos **combinando soluções de instancias meno
     ```
 - **Alocação Dinâmica**
 
+    - Necessário o uso de __```#include <stdlib.h>```__
+
+    - **Alocar memória**: ```malloc```
+        ```void* malloc( size_t size);``` passa o quanto de memória alocar
+    - **Liberar memória**:
+        ```void free(void* ptr);```
+        **SEMPRE que se fazer uso de malloc DEVE-SE LIBERA-LA**  
+        **free(n)**
+    - Exemplo:
+        ```c
+        int *n; //declaração de ponteiro
+        n = malloc(sizeof(int)); // alocação de memória
+        //podemos usar um cast:
+        // n = (int *) malloc(sizeof(int));
+        ...
+        free(n); //liberação de memória
+        ```
+    - Não há garantia que a memória seja alocada  
+        Em caso de erro, é retornado o ponteiro NULL (internamente o valor zero)
+    
+    - **Valgrind**
+        Ferramenta de análise que pode detectar vazamentos de memória, acessos indevios, etc
+        ```c
+        int *n;
+        n = malloc(sizof(int));
+
+        if (n != NULL) {
+            *n = 507;
+            printf("%d\n", n);
+            free(n);
+        } else {
+            printf("Erro na alocação");
+        }
+
+        ```
+        Na linha de comando:
+        ```valgrind exemplo.exe```
+        Se o ```free(n)``` for removido, será retornado infos de leak e heap
+    
+    - **Função** ```calloc```
+        ```void* valloc(size_t nitems, size_t size)```
+        - malloc: apenas aloca um bloco de memória (mas inicializa a memória)
+        - calloc aloca e inicializa o bloco com zeros
+
+    - Exemplo final:
+        - Erro:
+            ```c
+            int *ptr_numero;// valor do ponteiro está indefinido
+            scanf("%d", ptr_numero);
+            printf("%d\n", ptr_numero);// faltou acessar o valor do inteiro apontado
+            ```
+        - Correto:
+            ```c
+            int *ptr_numero = malloc(sizeof(int));
+            scanf("%d", ptr_numero);
+            printf("%d\n", *ptr_numero);
+            free(ptr_numero);
+            ```
+
+
