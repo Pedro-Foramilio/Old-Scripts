@@ -21,6 +21,19 @@ Saída:
 valores de *a, *b e *c após a execução da função ordena.
 */
 
-void ordena(int *a, int *b, int *c) {
-
+void ordenaPar(int *x, int *y) {
+    if (*y < *x) {
+        int temp = *x;
+        *x = *y;
+        *y = temp;
+    }
+    return;
 }
+
+void ordena(int *a, int *b, int *c) {
+    ordenaPar(b, c);
+    ordenaPar(a, b);
+    ordenaPar(b, c);
+}
+
+

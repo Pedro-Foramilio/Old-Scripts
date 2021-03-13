@@ -27,5 +27,36 @@ Por exemplo, para o texto "Texto para teste ABCD" e largura 10, a divisão seria
 //#include "conta_linhas_texto.h"
 
 void conta_linhas(char texto[], int largura_linha, int* qtd_linhas) {
+    *qtd_linhas = 0;
+
+    int tamanho = 0;
+    while (texto[tamanho] != '\0'){
+        tamanho++;
+    }
+
+    int j = 0;
+    int contador = 0;
+    int ultimo_espaco;
+    while (j < tamanho) {
+
+        if (texto[j] == ' ') {
+            ultimo_espaco = j;
+        }
+
+        if (contador == largura_linha) {
+            if (texto[j+1] == ' ') {
+                tamanho--;
+                *qtd_linhas++;
+            } else {
+                *qtd_linhas++;
+                int palavra = j - ultimo_espaco+1;
+                tamanho -= palavra;
+            }
+
+            contador = -1;
+        }
+        contador++;
+        j++;
+    }
 
 }
