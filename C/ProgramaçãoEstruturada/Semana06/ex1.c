@@ -21,3 +21,53 @@ Importante: utilize malloc para alocar o vetor (não declare vetor com colchetes
 Lembre-se de liberar toda memória alocada com malloc/calloc!
 */
 
+#include <stdio.h>
+#include <stdlib.h>
+
+void bubbleSort(double *v, int tamanho) {
+    int aux = 0;
+    for (int i = tamanho; i > 0; i--) {
+        for (int j = 0; j < i -1; j++) {
+            if (v[j] > v[j+1]) {
+                aux = v[j];
+                v[j] = v[j+1];
+                v[j+1] = aux;
+                aux = 0;
+            }
+        }
+    }  
+}
+
+int main() {
+    int n;
+    scanf("%d", &n);
+
+    double input = 0;
+    int contador = 0;
+    double *vetor;
+    vetor = malloc(sizeof(double) * n);
+
+    while (input != -1) {
+        scanf("%lf", &input);
+        if (input == -1) {
+            break;
+        }
+
+        vetor[contador] = input;
+
+        bubbleSort(vetor,contador+1);
+
+        for (int i=0; i <= contador; i++) {
+            if (i == contador) {
+                printf("%.1f", vetor[i]);
+            } else {
+                printf("%.1f ", vetor[i]);
+            }
+        }
+        printf("\n");
+        contador++;
+    }
+
+    free(vetor);
+    return 0;
+}
