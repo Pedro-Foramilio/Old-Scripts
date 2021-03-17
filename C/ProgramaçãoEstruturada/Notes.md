@@ -485,4 +485,146 @@ Muitos problemas podem ser resolvidos **combinando soluções de instancias meno
             free(ptr_numero);
             ```
 
+---
 
+# Semana 06 - Ponteiros | Parte 2
+
+- Alocação Dinâmica
+```c
+int *n;
+n = malloc(sizeof(int));
+free(n);
+```
+
+- **Alocação Dinâmica | Vetores**
+    ```c
+    int *n;
+    n = malloc(5 * sizeof(int)); //Alocação de uma sequência de 5 inteiros
+    free(n);
+    ```
+    
+    - Preenchimento de vetor:
+    ```c
+    #include <stdio.h>
+    #include <stdlib.h>
+
+    int main() {
+        int n;
+        scanf("%d", &n);
+
+        int *vetor = malloc(sizeof(int) * 5);
+
+        int i;
+        for (i = n-1; i >= 0; i--) {
+            vetor[i] = n-i;
+        }
+        ...
+        free(vetor);
+    }
+    ```
+    - Não há garantia que memória seja alocada:
+    ```c
+    if(vetor == NULL) { //Em caso de erro, é retornado um ponteiro NULL
+        printf("ERRO NA ALOCACAO\n");
+        return -1;
+    }
+    ```
+
+- **Aritimética de Ponteiros**
+
+O efeito das operações aritiméticas sobre os ponteiros depende de como foram declarados:
+    - int = 4 bytes | ptr + 1 incrementa 4 bytes
+    - char = 1 byte | ptr + 1 incrementa 1 byte
+    - double = 8 bytes | ptr + 1 incrementa 8 bytes
+
+```c
+char *ptr = malloc(sizeof(char)); // tem tamanho de 1 byte
+printf("%p\n", ptr); // 0x556f17723010
+ptr++;
+printf("%p\n", ptr); // 0x556f17723011
+// foi somado 1 byte
+
+int *ptr = malloc(sizeof(int)); // tem tamanho de 4 byte
+printf("%p\n", ptr); // 0x55c5f3c91010
+ptr++;
+printf("%p\n", ptr); // 0x55c5f3c91014
+//foi somado 4 byte
+```
+
+- **Aritimética de ponteiros em vetores**  
+
+    ```c
+    int *vetor = malloc(sizeof(int) * 10);
+    ```  
+    Acessando valores:       
+    - *(vetor + 0) = 80  <------> vetor[0] = 80
+    - *(vetor + 4) = 507 <------> vetor[4] = 507
+    obs: parenteses importante para a aritimética ser realizada antes de dereferenciar com *
+
+- **Vetores como parâmetro e como retorno de função**
+
+    Sabemos que vetores são passados por referência:
+    ```c
+    /*Ambas funções possuem mesmo comportamento*/
+
+    void muda_valor(int vetor[]) {...}
+    void muda_valor(int *vetor)  {...}
+
+    /*Dentro das funções, é possivel fazer o seguinte: */
+    ...{
+        *vetor = 90;          //muda primeiro valor do vetor
+        *(vetor + 1) = 507;  //muda segundo valor do vetor
+    }
+    ```
+
+    - **Qual melhor forma de retornar um vetor ?**
+        É necessário retornar seu ponteiro, mas NÃO RETORNE VARIÁVEL LOCAL
+        ```c
+        int* cria_vetor(int n) { //sinaliza que retorna um ponteiro
+            int vetor[n];
+            int i;
+            for (i=0; i < n; i++) {
+                vetor[i] = i+1;
+            }
+
+            return vetor; 
+            //==> retorna um ponteiro para var LOCAL (falha de segmentação)
+        }
+        ```
+    - É necessário alocação dinâmica DENTRO da função:
+        ```c
+        int* cria_vetor(int n) { //sinaliza que retorna um ponteiro
+
+            int *vetor = malloc(sizeof(int) * n); //alocação dinâmica de memória
+
+            int i;
+            for (i=0; i < n; i++) {
+                vetor[i] = i+1;
+            }
+
+            return vetor;
+        }
+
+        /*exemplo de funcao main*/
+        int main() {
+            int *v = cria_vetor(5);
+
+            for(int i = 0; i < 5; i++) 
+                printf("%d ", v[i]); //1 2 3 4 5
+            printf("\n");
+            free(v) //LIBERA MEMÓRIA
+
+            return 0;
+        }
+        ```
+
+- **Buffer overflow**
+
+    Quando usamos um vetor, temos que ter atenção aos limites dele
+    Quando o seguinte código passa de i = 9, possui comportamento imprevisível:
+    ```c
+    double vetor[10]
+    for (int i = 0; i <=10; i++)
+        printf("%d", i);
+    ```
+    
