@@ -44,11 +44,12 @@ void conta_linhas(char texto[], int largura_linha, int* qtd_linhas) {
         }
 
         if (contador == largura_linha) {
+            
             if (texto[j+1] == ' ') {
                 tamanho--;
-                *qtd_linhas++;
+                *qtd_linhas += 1;
             } else {
-                *qtd_linhas++;
+                *qtd_linhas += 1;
                 int palavra = j - ultimo_espaco+1;
                 tamanho -= palavra;
             }
