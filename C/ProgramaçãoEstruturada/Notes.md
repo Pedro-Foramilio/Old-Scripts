@@ -627,4 +627,7 @@ printf("%p\n", ptr); // 0x55c5f3c91014
     for (int i = 0; i <=10; i++)
         printf("%d", i);
     ```
-    
+    Em casos de armazenamento de variáveis, pode-se ultrapassar por muito a quantidade de memória alocada, podendo interferir com valores de outras variáveis alocadas, por exemplo.
+
+
+
