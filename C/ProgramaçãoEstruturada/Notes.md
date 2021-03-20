@@ -629,5 +629,215 @@ printf("%p\n", ptr); // 0x55c5f3c91014
     ```
     Em casos de armazenamento de variáveis, pode-se ultrapassar por muito a quantidade de memória alocada, podendo interferir com valores de outras variáveis alocadas, por exemplo.
 
+---
+
+# Semana 07 - Ponteiros | Parte 3
+
+- **Ponteiro para Ponteiro**
+    - Um ponteiro para ponteiro armazena um endereço de memória de um ponteiro
+    ```c
+    int **ptr_i2;
+    double **ptr_d2;
+    char **ptr_c2;
+    ```
+    - Exemplo:
+    ```int **ptr2;``` ptr2 = &ptr1, ou seja, ptr2 -----aponta---> ```int *ptr1``` e ptr1 = &num, ou seja, ptr1 ----aponta----> ```int num;```
+
+    - Exemplo prático:
+    ```c
+    double nota_p1;
+    scanf("%lf", &nota_p1);
+    printf("%.2lf\n", nota_p1);
+
+    double *ptr_nota = &nota_p1;
+    scanf("%lf", ptr_nota); //ptr_nota --> guarda endereço de memória de nota_p1
+    print("%.2lf\n", nota_p1);
+
+    double **ptrptr_nota = &ptr_nota;
+    scanf("%lf", *ptrptr_nota);
+    /* ptrptr_nota aponta para o ptr_nota. O "*" retorna o valor da variável que ele aponta,
+    ou seja, o valor de ptr_nota*/
+    print("%.2lf\n", nota_p1);
+    ```
+- **Passagem de ponteiro como argumento de função**
+    ```c 
+    void le_vetor(int *vetor, int n) {
+        vetor = malloc(sizeof(int) * n);
+        int i;
+        for (i = 0; i < n; i++) {
+            vetor[i] = i;
+        }
+    }
+    ```
+    O **ponteiro** é uma variável e é passado por **valor**. Portanto, le_vetor não altera o valor do ponteiro.
+
+    - Podemos resolver utilizando o ponteiro duplo:
+        Dessa forma o ponteiro duplo ```**vetor``` é passado por valor, mas aponta para o ponteiro ```*vetor``` que queremos alterar, que é passado por referencia.    
+        ```c
+        void le_vetor(int **vetor, int n) {
+            *vetor = malloc(sizeof(int) * n);
+            int i;
+            for (i = 0; i < n; i++) {
+                (*vetor)[i] = i;
+            }
+        }
+        ```
+    
+- **Alocação Estática vs Dinâmica (Matrizes)**
+
+    Matriz é um vetor de vetores
+    Matriz = 
+    [
+    [1, 2, 3], 
+    [4, 5, 6], 
+    [7, 8, 9]
+    ]
+    - Cada vetor é identificado pelo seu ponteiro (endereço do primeiro elemento)
+        Portanto, uma matriz pode ser representada por um vetor de ponteiros.
+    [ ] ----> [1, 2, 3]
+    [ ] ----> [4, 5, 6]
+    [ ] ----> [7, 8, 9]
+
+    ```c
+    int *matriz[4];
+    /*alternatimante*/
+    int **matriz;
+    matriz = malloc(sizeof(int *) * 4);
+    /*-------------*/
+    for (int i = 0; i  < 4; i++) {
+        matriz[i] = malloc(suzeif(int) * 3);
+    }
+    ```
+    int **matriz;
+    [
+    [int *] -->[int, int, int],
+    [int *] -->[int, int, int],
+    [int *] -->[int, int, int],
+    [int *] -->[int, int, int],
+    ]
+
+    - Escreva um programa para alocar uma matriz dinamicamente e preencher alguns valores em todas as posições:
+        ```c
+        int main() {
+            int linhas = 4;
+            int colunas = 3;
+            int **matriz = malloc(sizeof(int *) * linhas);
+            for (int i = 0; i < linhas; i++) {
+                matriz[i] = malloc(sizeof(int) * colunas);
+            }
+
+            for (int i = 0; i < linhas; i++) {
+                for (int j = 0; j < colunas; j++) {
+                    matriz[i][j] = (i + 1)*(j + 1);
+                }
+            }
+            for (int i = 0; i < linhas; i++) {
+                for (int j = 0; j < colunas; j++) {
+                    printf("%d ",matriz[i][j]);
+                }
+                printf("\n");
+            }
+        
+            /* liberação de memória*/
+
+            for (int i = 0; i < linhas; i++) {
+                free(matriz[i]);
+            }
+            free(matriz);
+           return 0;
+        }
+        ```
+    - **Função que retorna Matriz**
+        Para retornar uma matriz, basta retornar o ponteiro dela (no caso, um ponteiro para ponteiro)
+        ```c
+        int** retorna_matriz(int linhas, int colunas) {
+            int **m;
+            m = malloc(sizeof(int *) * linhas);
+
+            int c = 0;
+            int i, j;
+            for (i = 0; i < linhas i++) {
+                    m[i] = malloc(sizeof(int) * colunas);
+                for (j = 0; j < colunas; j++) {
+                    m[i][j] = c++;
+                }
+            }
+
+            return m;
+        }
+        ```
+        - Utilizando este mecanismo de alocação dinâmica, podemos ter tamanho diferentes:
+        ```c
+        int **m;
+        m = malloc(sizeof(int *) * 3);
+        m[0] = malloc(sizeof(int) * 2);
+        m[1] = malloc(sizeof(int) * 5);
+        m[2] = malloc(sizeof(int) * 3);
+        ```
+    - **Matriz como parâmetro de função**
+
+        ```c
+        void gera_matriz(int ***matriz, int linhas, int colunas){//ponteiro para ponteiro para ponteiro
+            ...
+            *matriz = m;
+        }
+        ```
+
+- **Ponteiro para Função**
+    
+    Em C podemos ter ponteiros para funções:
+    ```c
+    void (*ptr_fun)();
+    ptr_fun = funcao_a;
+
+    void (*ptr_fun2)(int);
+    ptr_func2 = &funcao_b;
+    ```
+    uso do & é opcional;
+
+
+    - Exemplo:
+        ```c
+        double soma(double a, double b) {
+            return a + b;
+        } 
+        double multiplicacao(double a, double b) {
+            return a + b;
+        }
+
+        int main() {
+            double (*funcao)(double, double);
+
+            funcao = &soma;
+            printf("%.2lf\n", funcao(5, 6)); // 11.00
+
+            funcao = &multiplicacao;
+            printf("%.2lf\n", funcao(5, 6)); // 30.00
+        
+            return 0;
+        }
+        ```
+    
+    - **Vetor de ponteiro de funcoes**
+
+        ```c
+        int operacao;
+        scanf("%d", &operacao);
+        switch (operacao) {
+            case 0: a = soma(a, b); break;
+            case 1: a = multiplicacao(a, b); break;
+            case 2: a = divisao(a, b); break;
+        }
+
+        /* podemos substituir esse switch por */
+        int operacao;
+        scanf("%d", &operacao);
+        double(*funcoes[])(double, double) = {&soma, &multiplicacao, &divisao};
+        a = funcoes[operacao](a, b);
+        ```
+        
+
+
+
 
 
