@@ -835,9 +835,427 @@ printf("%p\n", ptr); // 0x55c5f3c91014
         double(*funcoes[])(double, double) = {&soma, &multiplicacao, &divisao};
         a = funcoes[operacao](a, b);
         ```
+
+---
+
+# Semana 08 - Estrutura e Arquivos
+
+- **Estruturas (struct)**
+    Com *struct*, definimos um novo tipo de dados  
+    Esse tipo é uma estrutura que permite a combinação de itens de diferentes tipos de dados  
+    - Definição de um Novo tipo de dado *struct aluno*
+        ```c
+        struct aluno {
+            int ra;
+            char nome[100];
+            char curso[20];
+        }; // <---- detalhe de ;
+        ```
+    - Declarando uma variavel do novo tipo:
+        ```c
+        struct aluno aluno1;
+        struct aluno aluno2, aluno3;
+        ```
+    - Acessando membros da estrutura:
+        ```c
+        struct aluno a1;
+        a1.ra = 123;
         
+        struct aluno a2, a3;
+        a2.ra = 100;
+        a3.ra = 200;
 
+        scanf("%d", &a2.ra);
+        scanf("%s", a2.curso);
+        ```
 
+    - Outro exemplo de uso:
+        ```c
+        #include <stdio.h>
+        /* criação da struct */
+        
+        struct aluno {
+            int ra;
+            char nome[100];
+            char curso[20];
+        };
+        /* --- */
+        /* criação da main */
+        
+        int main() {
+            struct aluno p;
 
+            scanf("%d", &p.ra);
+            scanf("%s", p.nome);
+            scanf("%s", p.curso);
 
+            printf("RA = %d Nome = %s Curso = %s", p.ra, p.nome, p.curso);
+
+            return 0;
+        }        
+        ```
+
+    - **Podemos criar um novo nome para o tipo de dados:**
+        ```c
+            typedef struct aluno novo_nome;
+
+            novo_nome aluno1;
+            novo_nome aluno2, aluno3;
+        ```
+    - Outros exemplos
+        ```c
+        #iclude <stdio.h>
+        #include <math.h>
+
+        struct ponto {
+            int x, y;
+        }
+        typedef struct ponto t_ponto;
+
+        double distancia(t_ponto p1. t_ponto p2) {
+            return sqrt((p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y) * (p1.y - p2.y));
+        }
+
+        int main(){
+            t_ponto p1, p2;
+            p1.x = 3;
+            p1.y = 4;
+            p2.x = 1;
+            p2.y = 2;
+
+            printf("%.2lf\n", distancia(p1, p2));
+
+            return 0;
+        }
+        ```
+        - Forma alternativa de inicialização: ``` t_ponto p1 = {3, 4}```
+
+- **Alocação Dinâmica de Estruturas**
+
+    Tendo a struct :
+    ```c
+    typedef struct aluno t_aluno;
+    struct aluno {
+        int ra;
+        char *nome;
+        double nota;
+    };
+    ```
+    Podemos alocar:  
+    ```c
+    t_aluno *a1;
+    a1 = malloc(sizeof(t_aluno));
+    t_aluno *a2 = malloc(sizeof(t_aluno));
+    ```
+    - Acessando membros a partir de ponteiro, temos 2 alternativas:
+        - Derreferenciar ponteiro e acesso com *ponto*:
+            ```c
+            t_aluno *a1 = malloc(sizeof(t_aluno));
+            (*a1).ra = 123;
+            ```
+        - Utilizar o operador ```->```:
+            ```c
+            t_aluno *a1 = malloc(sizeof(t_aluno));
+            a1->ra = 123;
+            ```
+    - Exemplo Pratico:
+        ```c
+        #include <stdio.h>
+        #include <stdlib.h>
+
+        typedef struct disciplina t_disciplina;
+        struct disciplina {
+            int cod;
+            char *nome;
+            int creditos;
+        };
+
+        int main() {
+            t_disciplina *pe = malloc(sizeof(t_disciplina));
+            pe->cod = 555;
+            pe->nome = "Programação";
+            pe->creditos = 4;
+
+            printf("Cod = %d Nome = %s Creditos = %d\n", pe->cod, pe->nome, pe->creditos);
+
+            free(pe);
+
+            return 0;
+        }
+        ```
+
+    - Uma estrutura pode referenciar a si mesma:
+        ```c
+        struct disciplina {
+            int cod;
+            char *nome;
+            int creditos;
+
+            struct disciplina *requisito;
+            //se naa usar ponteiro, a declaração se torna recursiva...
+        };
+        ```
+        - Exemplo:
+            ```c
+            struct disciplina {
+                int cod;
+                char *nome;
+                int creditos;
+                struct disciplina *requisito;
+            };
+
+            int main() {
+                struct disciplina pe;
+                pe.cod = 555;
+                pe.nome = "Programacao";
+                pe.creditos = 4;
+                pe.requisito = malloc(sizeof(struct disciplina));
+                
+                pe.requisito->cod = 444;
+                pe.requisito->nome = "Informacao";
+                pe.requisito->creditos = 5;
+                pe.requisito->requisito = NULL;
+
+                free(pe.requisito);
+
+                return 0;
+            }
+            ```
+
+- **Arquivos**
+
+    Para usar arquivos, necessário abrir  ```fopen``` e fechar ```fclose```
+    - Abertura de Arquivos:
+        fopen recebe o modo de abertura do arquivo:
+        ```c
+        FILE* fopen(const char *filename, const char *mode);
+        ```
+        - "r": Somente leitura
+        - "w": Escrita. Primeiro zera o arquivo
+        - "a": Escrita no final do arquivo
+        - "r+": Leitura e escrita. Aponta para o início do arquivo
+        - "w+": Leitura e escrita. Primeiro zera o arquivo
+        - "a+": Leitura e escrita. Leitura a partir do início e escrita no final do arquivo
+
+    - Para arquivos binários usamos os modos "rb" "wb" "ab" "rb+" "r+b" "w+b" "ab+" "a+b"
+
+    - Fechar Arquivo:
+        ```c
+        int fcoles(FILE *fp);
+        ```
+
+    - **Estrutura Básica**
+        ```c
+        #include <stdio.h>
+
+        int main() {
+            FILE *arquivo = NULL;
+            arquivo = fopen("teste.txt", "w");
+            fclose(arquivo);
+
+            return 0;
+        }
+        ```
+    
+    - **Escrita e Leitura**
+        - ```fputc``` / ```fgetc```
+        - ```fputs``` / ```fgets```
+        - ```fprintf``` / ```fscanf```
+
+        - Exemplo: Escrita
+            ```c
+            FILE *arquivo = NULL;
+            arquivo = fopen("teste.txt", "w");
+
+            fprintf(arquivo,"Inicio do Arquivo\n");
+            int n = 507;
+            fprintf(arquivo, "Valor de n = %d\n", n);
+
+            fclose(arquivo);
+            ```
+        - Exemplo: leitura
+            ```c
+            FILE *arquivo = NULL;
+            arquivo = fopen("abc.txt, "r");
+
+            char texto[100];
+
+            fscanf(arquivo, "%s", texto);// quando chega num espaço, a leitura é encerrada
+                                        // cada fscanf le palavra por palavra
+            printf("%s\n", texto); // "Incio"
+
+            fclose(arquivo);
+            ```
+            ...
+
+            ```c
+            FILE *arquivo = NULL;
+            arquivo = fopen("abc.txt, "r");
+
+            char texto[100];
+
+            fgets(texto, 100, arquivo);//fgets não para em um espaço
+                                        // cada fgets pega uma linha do arquivo
+            printf("%s\n", texto); // "Inicio do Arquivo"
+
+            fclose(arquivo);
+            ```
+        
+        - Exemplo: Leitura e Escrita:
+            ```c
+            FILE *arquivo = NULL;
+            arquivo = fopen("teste.txt", "a+");
+
+            char texto[100];
+            fscanf(arquivo, "%s", texto);
+            printf("%s", texto);
+
+            //Texto não foi adicionao ao final do arquivo, mas no final da primeira linha
+            fprintf(arquivo, "Ola Ola\n");
+
+            fclose(arquivo);
+            ```
+            - **Não execute operações de escrita e leitura intercaladas sen abtes reposicionar o fluxo (*stream*)**
+                Uma forma de lidar com esse problema é fechar e abrir o arquivo, assim não é necessário o uso do modo "a+"
+
+            - Uma forma correta:
+                ```c
+                FILE *arquivo = NULL;
+                arquivo = fopen("abc.txt", "r");
+
+                char texto[100];
+                fscanf(arquivo, "%s", texto);
+                printf("%s", texto);
+
+                fclose(arquivo);
+                arquivo = fopen("abc.txt", "a");
+
+                fprintf(arquivo, "Ola Ola\n");
+
+                fclose(arquivo);
+                ```
+
+    - **fseek**:
+        ```c
+        FILE *arquivo = NULL;
+        arquivo = fopen("abc.txt", "a+");
+
+        char texto[100];
+        fscanf(arquivo, "%s", texto);
+        printf("%s", texto);
+
+        fseek(arquivo, 0, SEEK_SET);// stream estará localizado no final do arquivo
+
+        fprintf(arquivo, "Ola Ola\n");
+        fclose(arquivo);
+        ```
+
+- **Arquivos Binários**
+    Podemos ler e escrever arquvios binários
+    Dessa forma, é possivel armazenar estruturas alocadas em memória em um arquivo
+
+    Usaremos as funções ```fwrite``` e ```fread```
+    
+    ```c
+    size_t fwrite (const void *ptr, size_t size, size_t count, FILE *stream);
+    /*
+    *ptr: ponteiro para a região de memória que será escrita no arquivo
+    size: tamanho de cada elemento
+    count: quantidade de elementos
+    *stream: ponteiro para o arquivo aberto
+    */
+    size_t fread(void *ptr, size_t size, size_t count, FILE *stream);
+    /*
+    *ptr: ponteiro para a região de memória JÁ ALOCADA que receberá os dados do arquivo
+    size: tamanho de cada elemento
+    count: quantidade de elementos
+    *stream: ponteiro para arquivo aberto
+    */
+    ```
+
+    - Exemplo:
+        Vamos armazenar uma lista de discos voadores (código e velocidade)
+
+        Veremos um programa para armazenar o vetor com essa estrutura em um arquivo
+
+        Depois teremos um programa para ler o arquivo e mostrar a lista de discos voadores no terminal
+
+        ```c
+        #include <stdio.h>
+        #include <stdlib.h>
+
+        struct disco_voador {
+            int cod;
+            double velocidade;
+        };
+
+        int main() {
+            //programa para escrever binário
+
+            struct disco_voador discos[3] = { {2, 4.5}, {6, 40.2}, {300, 1750.25} };
+
+            FILE *arq = fopen("discos.bin", "wb");
+
+            fwrite(discos, sizeof(struct disco_voador), 3, arq);
+            
+            fclose(arq);
+
+            return 0;
+        }
+        ```
+        
+        Programa para ler o .bin:
+
+        ```c
+        #include <stdio.h>
+        #include <stdlib.h>
+
+        struct disco_voador {
+            int cod;
+            double velocidade;
+        };
+
+        void print_discos(struct disco_voador discos[], n) {
+            int i;
+            for(i = 0; i < n; i++) {
+                printf("-> [%d] [%.2lf]\n", discos[i].cod, discos[i].velocidade);
+            }
+        }
+
+        int main() {
+            //programa para ler o .bin
+            
+            struct disco_voador *discos = malloc(sizeof(struct disco_voador) * 3)/
+
+            FILE *arq = fopen("discos.bin", "rb");
+            fread(discos, sizeof(struct disco_voador), 3, arq);
+
+            fclose(arq);
+
+            print_discos(discos, 3);
+            free(discos);
+
+            return 0;
+        }
+        ```
+
+- **Estrutura File:**
+    - FILE é uma estrutura (trecho do stdio.h do MinGW)
+    ```c
+    /*
+    Some believe that nobody in their right mind 
+    should make use of the internals of this structure
+    */
+   typedef struct _iobuf
+   {
+       char* _ptr;
+       int _cnt;
+       char* _base;
+       int _flag;
+       int _file;
+       int _charbuf;
+       int _bufsiz;
+       char* _tmpfname;
+   } FILE;
+   ```
 
