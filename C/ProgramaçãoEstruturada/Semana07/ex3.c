@@ -35,7 +35,7 @@ int main()
     }
 
     for (int i = 0; i < n_linhas_A; i++) {
-        for (int j = 0; j < n_linhas_A; j++) {
+        for (int j = 0; j < n_colunas_A; j++) {
             scanf("%d", &matriz_A[i][j]);
         }
     }
@@ -53,7 +53,7 @@ int main()
     }
 
     for (int i = 0; i < n_linhas_B; i++) {
-        for (int j = 0; j < n_linhas_B; j++) {
+        for (int j = 0; j < n_colunas_B; j++) {
             scanf("%d", &matriz_B[i][j]);
         }
     }
