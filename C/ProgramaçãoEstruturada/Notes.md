@@ -1259,3 +1259,397 @@ printf("%p\n", ptr); // 0x55c5f3c91014
    } FILE;
    ```
 
+---
+
+# Semana 09 - Ordenação e Busca
+
+**Ordenação:** processo de rearranjar uma sequencia de elementos de acordo com a **chave** de cada elemento.
+
+- Dois tipos de ordenação:
+    - Interna: todas as chaves estão na memória principal;
+    - Externa: grande parte das chaves estão em memória externa;
+
+- Algoritimos de ordenação podem ser divididos entre:
+    - **Baseados em Comparação:** 
+        Bubble sort, Selection sort, Insertion sort, Merge sort, Quick sort, Heap sort.
+    - **Baseados em Distribuição**
+        Count sort, Radix sort, Bucket sort.
+    
+- Algorítimos Estáveis: ordem relativa de elementos com chaves iguais é mantida
+- Algorítimos Instáveis: ordem relativa de elementos com chaves iguais *não* é mantida
+
+                  
+- **Algorítimos de ORDENAÇÃO SIMPLES**
+
+    - **Selection Sort - O(n²)**
+        - Ideia Geral: encontrar menor elemento, trocar menor elemento com primeiro elemento do vetor. Repetir com o restante do vetor (subvetor)
+
+        - Comparações:
+            - Melhor Caso: n(n-1)/2, O(n²)
+            - Pior Caso: n(n-1)/2, O(n²)
+
+        - Implementação:
+        ```c
+        #include <stdio.h>
+
+        void selection_sort(vetor, n){
+            int i;
+            for (i = 0; i < n-1; i++) {
+
+                int indice_menor = i;
+                int k;
+                //encontra menor elemento no subvetor
+                for (k = i+1; k < n; k++) {
+
+                    //para ordem descrescente: v[k] > v[indice_maior]
+                    if (v[k] < v[i])
+                        indice_menor = k;
+
+                }
+                //swap se indice for diferente
+                if (indice_menor != i){
+                    int tmp = v[i];
+                    v[i] = v[indice_menor];
+                    v[indice_menor] = tmp;
+                }
+
+            }
+            return;
+        }
+
+        void imprimir(int *v, int n) {
+            int i;
+            for (i = 0; i < n; i++) {
+                printf("%d ", v[i]);
+            }
+            printf("\n");
+
+            return;
+        }
+
+        int main() {
+            int n = 6;
+            int vetor = {6, 9, 40, 3, 5, 16};
+
+            imprimir(vetor, n);
+            selection_sort(vetor, n);
+            imprimir(vetor, n);
+
+            return 0;
+        }
+        ```
+
+    - **Bubble Sort - O(n²)**
+
+        - Ideia geral: Inicia no primeiro elemento e compara os elementos dois a dois. Caso k > k+1, troca. Repete n-1. O processo aplicado garante que o maior elemento estará na última posição e na segunda iteração o segundo maior elemento na penúltima posição...
+
+        - Comparações:
+            - Melhor Caso: n-1, O(n) com parada antecipada
+            - Pior Caso: n(n-1)/2, O(n²)
+
+        - Implementação:
+        ```c
+        #include <stdio.h>
+
+        //otimização: se não houver trocas em uma iteração completa, já está ordenado
+        void bubble_sort(int *v, int n) {
+            int i, k;
+            for (i = 0; i < n-1; i++) {
+
+                int trocou = 0; //otimização
+
+                for (k = 0; k < n-1-i; k++) {
+
+                    //para ordem descrescente: v[k] < v[k=1]
+                    if (v[k] > v[k+1]) {
+                        int tmp = v[k];
+                        v[k] = v[k+1];
+                        v[k+1] = tmp;
+                        trocou = 1; //otimização
+                    }
+                } 
+                if (!trocou) break; //otimização
+            }
+            return;
+        }
+
+        void imprimir(int *v, int n) {
+            int i;
+            for (i = 0; i < n; i++) {
+                printf("%d ", v[i]);
+            }
+            printf("\n");
+
+            return;
+        }
+
+        int main() {
+            int n = 6;
+            int vetor = {6, 9, 40, 3, 5, 16};
+
+            imprimir(vetor, n);
+            bubble_sort(vetor, n);
+            imprimir(vetor, n);
+
+            return 0;
+        }
+        ```
+
+    - **Insertion Sort - O(n²)**
+
+        - Ideia geral: Inicia com o subvetor de um elemento (primeiro elemento), therefore já ordenado. Depois avalia o próximo elemento e o insere na posição correta no subvetor ordenado. Agora o subvetor tem dois elementos. Repita até completar.
+
+        - Comparações:
+            - Melhor Caso: n-1. O(n)
+            - Pior Caso: n(n-1)/2, O(n²)
+
+        - Implementação:
+        ```c
+        #include <stdio.h>
+
+        void insertion_sort(int *v, int n) {
+            int i, k;
+            for (i = 1; i < n; i++) { //considera o i = 0 como já ordenado
+
+                int item_atual = v[i]; //guarda elemento atual
+
+                //encontra indice para inserção e desloca elementos para a direita
+                int indice_para_inserir = i;
+                //ordem crescente: item_atual > v[k]
+                for (k = i-1; k >= 0 && intem_atual < v[k] ; k--) {
+                    v[k+1] = v[k];
+                    indice_para_inserir--;
+                }
+
+                v[indice_para_inserir] = item_atual;
+            }
+            
+            return;
+        }
+
+        void imprimir(int *v, int n) {
+            int i;
+            for (i = 0; i < n; i++) {
+                printf("%d ", v[i]);
+            }
+            printf("\n");
+
+            return;
+        }
+
+        int main() {
+            int n = 6;
+            int vetor = {6, 9, 40, 3, 5, 16};
+
+            imprimir(vetor, n);
+            insertion_sort(vetor, n);
+            imprimir(vetor, n);
+
+            return 0;
+        }
+        ```
+
+- **Resumo Selection, Bubble, insertion**
+    ```c
+    void selection_sort(vetor, n){
+            int i;
+            for (i = 0; i < n-1; i++) {
+
+                int indice_menor = i;
+                int k;
+                //encontra menor elemento no subvetor
+                for (k = i+1; k < n; k++) {
+
+                    //para ordem descrescente: v[k] > v[indice_maior]
+                    if (v[k] < v[i])
+                        indice_menor = k;
+
+                }
+                //swap se indice for diferente
+                if (indice_menor != i){
+                    int tmp = v[i];
+                    v[i] = v[indice_menor];
+                    v[indice_menor] = tmp;
+                }
+
+            }
+            return;
+        }
+    
+    void bubble_sort(int *v, int n) {
+            int i, k;
+            for (i = 0; i < n-1; i++) {
+
+                int trocou = 0; //otimização
+
+                for (k = 0; k < n-1-i; k++) {
+
+                    //para ordem descrescente: v[k] < v[k=1]
+                    if (v[k] > v[k+1]) {
+                        int tmp = v[k];
+                        v[k] = v[k+1];
+                        v[k+1] = tmp;
+                        trocou = 1; //otimização
+                    }
+                } 
+                if (!trocou) break; //otimização
+            }
+            return;
+        }
+    
+    void insertion_sort(int *v, int n) {
+            int i, k;
+            for (i = 1; i < n; i++) { //considera o i = 0 como já ordenado
+
+                int item_atual = v[i]; //guarda elemento atual
+
+                //encontra indice para inserção e desloca elementos para a direita
+                int indice_para_inserir = i;
+                //ordem crescente: item_atual > v[k]
+                for (k = i-1; k >= 0 && intem_atual < v[k] ; k--) {
+                    v[k+1] = v[k];
+                    indice_para_inserir--;
+                }
+
+                v[indice_para_inserir] = item_atual;
+            }
+            
+            return;
+        }
+    ```
+
+- **Busca**
+
+    Dados um vetor **v** e um valor *x*, verificar se o elemento *x* está em **v**. Se estiver, retornaro índice *i* da posição de *x* em **v**. Caso contrário, retorne *-1*.
+
+    - **Busca linear/sequencial - O(n)**
+        Verifica-se todos os elementos de um vetor.
+
+        - Número de comparações:
+            - Melhor Caso: 1
+            - Pior Caso: n;
+
+        - Implementação:
+        ```c
+        int busca_linear(int *v, int n, int x) {
+            int i;
+            for (i = 0; i < n; i++)
+                if (v[i] == x)
+                    return i;
+            return -1;
+        }
+        ```
+
+    - **Busca Binária - O(log(n))**
+
+        Algoritimo de busca mais eficiente, mas requer que o vetor esteja ordenador. Busca realizada dividindo vetor até finalizar.
+
+        - Número de comparações:
+            - Melhor Caso: 
+            - Pior Caso: iteração k: n / 2^(k-1)
+                após k iterações, sobrará 1 elemento: 1 = n / 2^(k-1) => **k = log_base2(n) + 1**
+        
+        - Implementação:
+        ```c
+        int busca_binaria(int *v, int n, int x) {
+            int esq = 0, dir = n-1;
+            
+            while (esq <= dir) {
+
+                int meio = (esq + dir)/2;
+                if (v[meio] == x)
+                    return meio;
+                else if (v[meio] < x) //if true, x ta na direita
+                    esq = meio + 1;
+                else //x ta na esquerda
+                    dir = meio - 1;
+            }
+            return -1;
+        }
+        ```
+
+- **Constantes**
+
+    Duas formas principais de declarar uma constante em C:
+    - Pré processador ```define``` ou palavra-chave ```const```
+
+    - **Pré Processador**
+        ```c
+        #define <IDENTIDICADOR> <valor>
+        ```
+        Exemplo:
+        ```c
+        #include <stdio.h>
+        #define MAX_N 50
+
+        int main() {
+            char nome[MAX_N];
+            fgets(nome, MAX_N, stdin);
+            puts(nome);
+            
+            return 0;
+        }
+        ```
+    - **Palavra chave const**
+        ```c
+        const <tipo> <IDENTIDICADOR> = <valor>;
+        ```
+        Exemplo:
+        ```c
+        #include <stdio.h>
+        const int MAX_N = 50;
+
+        int main() {
+            char nome[MAX_N];
+            fgets(nome, MAX_N, stdin);
+            puts(nome);
+            
+            return 0;
+        }
+        ```
+
+    - **Constantes com Ponteiros**
+        Podemos tornar o ponteiro (ou a variável que ele aponta) constante.
+        ```c
+        /* declara um ponteiro para um inteiro constante. Ou seja, o VALOR DO PONTEIRO pode ser alterado,
+        mas a VARIÁVEL QUE ELE APONTA não */
+        const int *ptr;
+
+        int v[3];
+        ptr = v; // OK
+        ptr[2] = 40; // NOT OK
+        ```
+        Este tipo de constante pode ser usada quando queremos passar um ponteiro como parâmetro a uma função, mas não queremos que ela altere o conteúdo:
+        ```c
+        void imprimir_vetor(const int *v, int n) {
+            int i;
+            for (i = 0; i < n; i++) {
+                printf("%d ", v[i]);
+            }
+        }
+        ```
+        Para o valor do ponteiro ser constante, declaramos da seguinte forma:
+        ```c
+        /* declara um ponteiro constante para um inteiro. Ou seja,
+         o VALOR DO PONTEIRO não pode ser alterado, mas A variavel
+         QUE ELE APONTA pode. */
+        int v[5];
+        int * const ptr = v;
+
+        int v2[3];
+        ptr[2] = 507; // OK
+        ptr = v2;// NOT OK
+        ```
+        Para declarar um ponteiro constante que aponta para uma variável constante:
+        ```c
+        int v[5];
+
+        const int * const ptr = v;
+
+        int v2[3];
+        ptr[2] = 507; // NOT OK
+        ptr = v2; // NOT OK
+        ```
+    
+    
+
