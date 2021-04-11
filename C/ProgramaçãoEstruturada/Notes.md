@@ -1461,7 +1461,7 @@ printf("%p\n", ptr); // 0x55c5f3c91014
                 for (k = i+1; k < n; k++) {
 
                     //para ordem descrescente: v[k] > v[indice_maior]
-                    if (v[k] < v[i])
+                    if (v[k] < v[indice_menor])
                         indice_menor = k;
 
                 }
