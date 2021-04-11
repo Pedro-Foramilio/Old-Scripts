@@ -29,7 +29,7 @@ void imprimir(int *v, int n) {
     return;
 }
 
-void insertion_sort(int *v, int n, int *compara) {
+void selection_sort(int *v, int n, int *compara) {
     int i;
     int counter = 0;
     for (i = 0; i < n-1; i++) {
@@ -70,7 +70,7 @@ int main() {
     }
 
     imprimir(vetor, n);
-    insertion_sort(vetor, n, nComparacoes);
+    selection_sort(vetor, n, nComparacoes);
     imprimir(vetor, n);
     printf("%d\n", *nComparacoes);
 
