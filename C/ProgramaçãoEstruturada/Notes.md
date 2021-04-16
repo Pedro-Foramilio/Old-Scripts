@@ -1651,5 +1651,330 @@ printf("%p\n", ptr); // 0x55c5f3c91014
         ptr = v2; // NOT OK
         ```
     
-    
+---
+
+# Semana 10 - Listas Ligadas | Parte 1
+
+- Lista: estrutura de dados que permite operações básicas: Busca; Inserção; Remoção
+
+- **Lista com vetor/arranjo**:
+    Itens dispostos em um arranjo sequencial: | dados | dados | dados | dados |
+
+    - Busca: É possível acessar elementos diretamente com índice, o que permite busca *sequencial* ou *binária* (vetor ordenado)
+    - Inserção e Remoção: Pode necessitar de deslocamentos
+
+- **Listas ligadas/encadeadas**:
+    Estrutura de dados que armazena os itens de forma **não consecutiva** na memória. Cada item possui uma referência para o próximo: |dados, prox--|-->|dados, prox--|-->|dados,prox--|-->null
+
+    - Tipos:
+        - Listas simplesmente ligadas (com e sem nó cabeça)
+        - Listas duplamente ligadas (com e sem nó cabeça)
+        - Listas circulares
+
+    - Busca: Acessar um item (por índice) requer percorrer a lista desde o início.
+    - Inserção e Remoção: Não requer deslocamentos. Basta alterar a referênciar anterior e posterior ao item inserido ou removido
+
+    |                | Lista com Vetor                                             | Lista Ligada                                         |
+    | :------------- | :---------------------------------------------------------: | :--------------------------------------------------- |
+    |  Busca         | Permite acesso direto a um item(busca sequencial e binária) | Requer percorrer a lista para acessar um item        |
+    | Inserção       | Necessita de deslocamentos                                  | Não requer deslocamentos                             |
+    | Remoção        | Necessita de deslocamentos                                  | Não requer deslocamentos                             |
+    | Uso de memória | Armazena apenas os itens                                    | Armazena ao menos uma referência junto com cada item |
+
+- **Listas Ligadas | Implementação**
+    - Definição de struct:
+    ```c
+    typedef struct LinkedNode LinkedNode;
+    struct LinkedNode {
+        int data;
+        LinkedNode *next;
+    };
+    ```
+    - Exemplo: alocar 3 nós na memória e formar uma LL definindo o valor do ponteiro next de cada nó e imprimir os 3 nós. Criar uma função que percorre uma lista de tamanho arbitrário.
+
+        ```c
+        #include <stdio.h>
+        #include <stdlib.h>
+        //utilizando struct definido por LinkedNode
+
+        void imprimir(LinkedNode *inicio) {
+            LinkedNode *atual = inicio;
+            
+            while(atual != NULL) {
+                printf("%d ", atual->data);
+                atual = atual->next;
+            }
+            printf("\n");
+
+            return;
+        }
+
+        int main() {
+        /* declarando e criando cada node com seus dados */
+            LinkedNode item1;
+            item1.data = 10;
+
+            LinkedNode item2;
+            item2.data = 20;
+
+            LinkedNode item3;
+            item3.data = 30;
+
+        /* linkando cada node */
+            item1.next = &item2;
+            item2.next = &item3;
+            item3.next = NULL;
+
+            imprimir(&item1);
+
+            return 0;
+        }
+        ```
+        Utilizando Alocação Dinâmica:
+        ```c
+        #include <stdio.h>
+        #include <stdlib.h>
+        //utilizando struct definido por LinkedNode
+
+        void imprimir(LinkedNode *inicio) {
+            LinkedNode *atual = inicio;
+            
+            while(atual != NULL) {
+                printf("%d ", atual->data);
+                atual = atual->next;
+            }
+            printf("\n");
+
+            return;
+        }
+
+        int main() {
+        /* declarando e criando cada node com seus dados */
+            LinkedNode *item1 = malloc(sizeof(LinkedNode));
+            item1->data = 10;
+
+            LinkedNode *item2 = malloc(sizeof(LinkedNode));
+            item2->data = 20;
+
+            LinkedNode *item3 = malloc(sizeof(LinkedNode));
+            item3->data = 30;
+
+        /* linkando cada node */
+            item1->next = item2;
+            item2->next = item3;
+            item3->next = NULL;
+
+            imprimir(item1);
+
+        /* Liberando memoria */
+            free(item1);
+            free(item2);
+            free(item3);
+
+            return 0;
+        }
+        ```
+
+
+- **Listas Ligadas | Operações**
+
+    - Inserir no final
+        ```c
+        LinkedNode *inserir_final(LinkedNode *inicio, int valor) {
+            LinkedNode *novo = malloc(sizeo(LinkedNode));
+            if (novo == NULL) return inicio; //caso de erro na alocação
+             
+            novo->data = valor;
+            novo->next = NULL;
+
+            if (inicio == NULL) //lista vazia
+                return novo;
+            
+            LinkedNode *anterior = NULL;
+            LinkedNode *atual = inicio;
+            while (atual!= NULL) {
+                anterior = atual;
+                atual = atual->next;
+            }
+            anterior->next = novo;
+            return inicio; //inicio sempre é o mesmo
+
+        }
+
+        int main() {
+            LinkedNode *inicio = NULL;
+            inicio = inserir_final(inicio, 10);
+            inicio = inserir_final(inicio, 20);
+            inicio = inserir_final(inicio, 30);
+
+            imprimir(inicio);
+
+            //liberação em breve
+        }
+
+        ```
+    - Inserir no final - Versão Recursiva
+        ```c
+        LinkedNode *inserir_final(LinkedNode *inicio, int valor) {
+            if (inicio == NULL) {
+                LinkedNode *novo = malloc(sizeof(LinkedNode));
+                novo->data = valor;
+                novo->next = NULL;
+                return novo;
+            }
+
+            inicio->next = inserir_final(inicio->next, valor);
+            return inicio;
+        }
+
+        int main() {
+            LinkedNode *inicio = NULL;
+            inicio = inserir_final(inicio, 10);
+            inicio = inserir_final(inicio, 20);
+            inicio = inserir_final(inicio, 30);
+
+            imprimir(inicio);
+
+            //liberação em breve
+        }
+        ```
+    - Otimização de Inserção no Final:
+        É possível sempre armazenar o ponteiro para o ultimo item da lista, não precisando percorrer a lista completa.
+        
+    - Remover
+        ```c
+        LinkedNode *remover(LinkedNode *inicio, int valor) {
+            LinkedNode *anterior = NULL;
+            LinkedNode *atual = inicio;
+
+            //sai do while quando achou valor ou percoreu a lista toda (atual == null)
+            while (atual != NULL && atual->data != valor) {
+                anterior = atual;
+                atual = atual->next;
+            }
+
+            if (atual != NULL) {
+                //remoção não é o primeiro
+                if (anterior != NULL) {
+                anterior->next = atual->next;//pula atual
+                } else {
+                    inicio = atual->next; //case remover primeiro elemento
+                }
+
+                free(atual); //removendo da memória
+            }
+            return inicio;
+        }
+        ```
+    - Remover - Versão Recursiva
+        ```c
+        LinkedNode *remover(LinkedNode *inicio, int valor) {
+            if (inicio == NULL) return NULL;//lista nula
+            if (inicio->data == valor) {//remove primeiro item
+                LinkedNode *temp = inicio->next;
+                free(inicio);
+                return temp;
+            }
+            inicio->next = remover(inicio->next, valor);
+            return inicio;
+        }
+        ```
+- **Liberação de Lista Ligada**
+
+    ```c
+    void liberar_lista(LinkedNode *inicio) {
+        LinkedNode *atual = inicio;
+        LinkedNode *remover;
+        while (atual != NULL) {
+            remover = atual;
+            atual = atual->next;
+            free(remover);
+        }
+    }
+    int main() {
+        LinkedNode *inicio = NULL;
+        inicio = inserir_final(inicio, 10);
+        inicio = inserir_final(inicio, 20);
+        inicio = inserir_final(inicio, 30);
+
+        imprimir(inicio);
+
+        liberar_lista(inicio);
+
+        return 0;
+        }
+    ```
+    - liberação recursiva
+        ```c
+        void liberar_lista(LinkedNode *inicio) {
+            if (inicio == NULL) return;
+            liberar_lista(inicio->next);
+            free(inicio);            
+        }
+        ```
+
+- Exercício Exemplo:
+
+    - Escreva um programa que le numeros em uma lista ligada até que o usuário digite -1 e depois imprima a lista de números:
+    ```c
+    #include <stdio.h>
+    #include <stdlib.h>
+
+    typedef struct LinkedNode;
+    struct LinkedNode {
+        int data;
+        LinkedNode *next;
+    };
+
+    LinkedNode *inserir_final(LinkedNode *inicio, int valor) {
+        if (inicio == NULL) {
+            LinkedNode *novo = malloc(sizeof(LinkedNode));
+            if (novo == NULL) return inicio;
+            novo->data = valor;
+            novo->next = NULL;
+            return novo;
+        }
+
+        inicio->next = inserir_final(inicio->next, valor);
+        return inicio;
+    }
+
+    void imprimir(LinkedNode *inicio) {
+        LinkedNode *atual = inicio;
+        while (atual != null) {
+            printf("%d ", atual->data);
+            atual = atual->next;
+        }
+        printf("\n");
+
+        return;
+    }
+
+    void liberar_lista(LinkedNode *inicio) {
+        if (inicio == NULL) return;
+        liberar_lista(inicio->next);
+        free(inicio);
+
+        return;
+    }
+
+    int main() {
+        LinkedNode *inicio = NULL;
+        int n;
+        scanf("%d", &n);
+
+        while (n != -1) {
+            inicio = inserir_final(inicio, n);
+            scanf("%d", &n);
+        }
+
+        imprimir(incio);
+        liberar_lista(inicio);
+
+        return 0;
+    }
+
+    ```
+
+
 
