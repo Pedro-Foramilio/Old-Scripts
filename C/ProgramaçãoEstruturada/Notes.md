@@ -1976,5 +1976,299 @@ printf("%p\n", ptr); // 0x55c5f3c91014
 
     ```
 
+---
 
+# Semana 10 - Listas Ligadas | Parte 2
 
+- **Listas Ligadas com Outros tipos de dadaos**
+    Podemos utilizasr outro typedef para o tipo de dados do nó. Neste caso, as funções também usariam esse tipo:
+    ```c
+    typedef int TIPO; //substituir int pelo tipo a ser utilizado
+    //typedef char* TIPO
+    //typedef double TIPO .... etc
+
+    typedef struct LinkedNode LinkedNode;
+    struct LinkedNode {
+        TIPO data;
+        LinkedNode *next;
+    };
+
+    LinkedNode *inserir_final(LinkedNode *inicio, TIPO valor) { ... }
+    ...
+    ```
+    Este tipo pode ser outra estrutura ou ponteiro para outra estrutura:
+    ```c
+    struct Pedido {
+        int codigo;
+        char *descricao;
+    };
+
+    typedef struct Pedido TYIPO;
+
+    struct LinkedNode {
+        TIPO data;
+        LinkedNode *next;
+    };
+    ```
+
+    - Exemplo: Escreva um programa que leia uma lista de strings e armazene em uma lista ligada.
+        ```c
+        #include <stdio.h>
+        #include <stdlib.h>
+        #include <string.h> //strlen
+
+        typedef char* TIPO;
+
+        typedef struct LinkedNode LinkedNode;
+        struct LinkedNode {
+            TIPO data;
+            LinkedNode *next;
+        };
+
+        void imprimir(LinkedNode *inicio) {
+            LinkedNode *atual = inicio;
+            while (atual != NULL) {
+                printf("[%s]", atual->data);
+                atual = atual->next;
+            }
+            printf("\n");
+        }
+
+        void *inserir_final(LinkedNode *inicio, TIPO valor) {
+            LinkedNode *novo = malloc(sizeof(LinkedNode));
+            if (novo == NULL) return inicio;
+            novo->data = valor;
+            novo->next = NULL;
+
+            if (inicio == NULL) return novo;
+
+            LinkedNode *anterior = NULL;
+            LinkedNode *atual = inicio;
+            while (atual != NULL) {
+                anterior = atual;
+                atual = atual->next;
+            }
+            anterior->next = novo;
+            return inicio;
+        }
+
+        void liberar_lista(LinkedNode *inicio) {
+            if (inicio == NULL) return;
+            liberar_lista(inicio->next);
+            free(inicio->data);//libera string
+            free(inicio);//libera node
+        }
+
+        int main(){
+            LinkedNode *inicio = NULL;
+
+            int n;
+            scanf("%d ", &n);
+
+            for (int i = 0; i < n; i++) {
+                char* texto = malloc(sizeof(char) * 100);
+                fgets(texto, 100, stdin);
+                texto[strlen(text)-1] = 0;
+                inicio = inserir_final(inicio, texto);
+            }
+
+            imprimir(inicio);
+            liberar_lista(inicio);
+
+            return 0;
+        }
+        ```
+    
+- **Listas Duplamente Ligadas**
+    
+    Cada item é ligado ao próximo item e também ao anterior;
+    
+    - Vatangem: a lista pode ser percorrida em ambas direções;
+    
+    - **Implementação**
+        ```c
+        typedef struct DLinkedNode DLinkedNode;
+        struct DLinkedNode {
+            int data;
+            DLinkedNode *prev;
+            DLinkedNode *next;
+        };
+        ```
+    - Algumas Operações
+        ```c
+        typedef struct DLinkedNode DLinkedNode;
+        struct DLinkedNode {
+            int data;
+            DLinkedNode *prev;
+            DLinkedNode *next;
+        };
+
+        void imprimir(ListaLigada *inicio) {
+            DLinkedNode *atual;
+            DLinkedNode *anterior = NULL;
+            
+            for (atual = inicio; atual != NULL; atual = atual->next) {
+                anterior = atual;
+                printf("%d ", atual->data);
+            }
+            printf("\n");
+
+            for (atual = anterior; atual != NLL; atual = atual->prev) {
+                printf("%d ", atual->data);
+            }
+            printf("\n");
+        }
+        
+        DLinkedNode *inserir_final(DLinkedNode *inicio, int valor) {
+            DLinkedNode *novo = malloc(sizeof(DLinkedNode));
+            if (novo == NULL) return inicio;
+
+            novo->data = valor;
+            novo->next = NULL;
+            novo->prev = NULL;
+
+            if (inicio == NULL) return novo;
+            
+            DLinkedNode *anterior = NULL;
+            DLinkedNode *atual = inicio;
+
+            while(atual != NULL){
+                anterior = atual;
+                atual = atual->next;
+            }
+
+            anterior->next = novo;
+            novo->prev = anterior;
+
+            return inicio;
+        }
+
+        void liberar_lista(DLinkedNode *inicio) {
+            if (inicio == NULL) return;
+            liberar_lista(inicio->next);
+            free(inicio);         
+        }
+
+        //procura um nó com o valor informado e remove da lista     
+        DLinkedNode *remover(DLinkedNode *inicio, int valor) {
+            DLinkedNode *atual = inicio;
+
+            while(atual->data != valor && atual != NULL) {
+                atual = atual->next;
+            }
+
+            if (atual != NULL) {
+                DLinkedNode *anterior = atual->prev;
+                DLinkedNode *proximo = atual->next;
+                
+                if (anterior != NULL)
+                    anterior->next = proximo;
+                else //atual é primeiro elemento
+                    inicio = proximo;
+                
+                if (proximo != NULL) //se prox for null, nn precisa fazer nada
+                    proximo->prev = anterior;
+                    
+                free(atual);
+            }
+            return inicio;
+        }
+        ```
+
+- Armazenano FIM
+
+    - Exemplo: criar uma estrutura para lista ligada que armazene ponteiros para o primeiro item e para o ultimo item
+        ```c
+        typedef struct DLinkedNode DLinkedNode;
+        typedef struct ListaLigada ListaLigada;
+        
+        struct DLinkedNode {
+            int data;
+            DLinkedNode *prev;
+            DLinkedNode *next;
+        };
+        
+        
+        struct ListaLigada {
+            DlinkedNode *inicio;
+            DlinkedNode *fim;
+        };
+        ```
+    - Algumas Operações
+        ```c
+        ListaLigada *criar_lista() {
+            ListaLigada *lista = malloc(sizeof(ListaLigaad));
+            lista->inicio = NULL;
+            return lista;
+        }
+
+        void imprimir(ListaLigada *lista) {
+            DLinkedNode *atual;
+            
+            for (atual = lista->inicio; atual != NULL; atual = atual->next) {
+                printf("%d ", atual->data);
+            }
+            printf("\n");
+
+            for (atual = lista->fim; atual != NULL; atual = atual->prev) {
+                printf("%d ", atual->data);
+            }
+            printf("\n");
+        }
+
+        void *inserir_final(ListaLigada *lista, int valor) {
+            DLinkedNode *novo = malloc(sizeof(DLinkedNode));
+            if (novo == NULL) return;
+
+            novo->data = valor;
+            novo->next = NULL;
+            novo->prev = NULL;
+
+            if (lista->inicio == NULL) {
+                lista->inicio = novo;
+                lista->fim = novo;
+                return;
+            }
+
+            novo->prev = lista->fim;
+            lista->fim->next = novo;
+            lista->fim = novo;
+
+            return;
+        }
+
+        void liberar_lista(DLinkedNode *inicio) {
+            if (inicio == NULL) return;
+            liberar_lista(inicio->next);
+            free(inicio);         
+        }
+
+        //procura um nó com o valor informado e remove da lista     
+        void *remover(ListaLigada *lista, int valor) {
+            DLinkedNode *atual = lista->inicio;
+
+            while(atual->data != valor && atual != NULL) {
+                atual = atual->next;
+            }
+
+            if (atual != NULL) {
+                DLinkedNode *anterior = atual->prev;
+                DLinkedNode *proximo = atual->next;
+                
+                if (anterior != NULL)
+                    anterior->next = proximo;
+                else //atual é primeiro elemento
+                    lista->inicio = proximo;
+                
+                if (proximo != NULL)
+                    proximo->prev = anterior;
+                else
+                    lista->fim = anterior;
+                    
+                free(atual);
+            }
+            return;
+        }
+        ```
+
+---
