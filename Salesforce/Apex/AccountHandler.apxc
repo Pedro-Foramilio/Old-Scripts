@@ -1,0 +1,12 @@
+public class AccountHandler {
+    public static Account insertNewAccount(String NewAccName) {
+        Account acct = new Account(Name = NewAccName);
+        try {
+            insert acct;
+            return acct;
+        } catch (DmlException e) {
+            System.debug('DML exception: ' + e.getMessage());
+            return NULL;
+        }
+    }
+}
