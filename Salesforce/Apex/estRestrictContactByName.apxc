@@ -1,0 +1,21 @@
+@isTest
+public class TestRestrictContactByName {
+    @isTest static void mainTest() {
+        
+        Test.startTest();
+
+        Contact contato1 =  new Contact(LastName = 'INVALIDNAME');
+        Database.SaveResult result1 = Database.insert(contato1, false);
+        
+        Contact contato2 = new Contact(LastName = 'Something');
+        insert contato2;
+        contato2.LastName = 'INVALIDNAME';
+        Database.SaveResult result2 = Database.update(contato2, false);
+        Test.stopTest();
+        
+        System.assert(!result1.isSuccess());
+        System.assert(!result2.isSuccess());
+        
+        
+    }
+}
