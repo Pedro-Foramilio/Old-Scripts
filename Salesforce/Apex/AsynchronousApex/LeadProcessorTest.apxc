@@ -1,0 +1,25 @@
+@isTest
+public class LeadProcessorTest {
+    
+    @TestSetup
+    static void setup() {
+        List<Lead> leads = new List<Lead>();
+        
+        for (Integer i = 0; i < 200; i++) {
+            leads.add(new Lead(LastName = 'Lead ' + i, Company='Company Number ' + i, 
+                               Status='Open - Not Contacted'));
+        }
+        insert leads;
+    }
+    
+    @isTest static void TestLeadProcessor() {
+        Test.startTest();
+        LeadProcessor processor = new LeadProcessor();
+        Id batch = Database.executeBatch(processor);
+        Test.stopTest();
+        
+        System.assertEquals(200, [select count() from lead where LeadSource = 'Dreamforce']);
+        
+    }
+
+}
