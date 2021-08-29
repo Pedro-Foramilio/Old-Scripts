@@ -1,0 +1,24 @@
+@isTest
+public class AccountManagerTest {
+    @isTest static void testgetAccount() {
+        //create Account to test
+        Account testAccount = new Account(Name = 'REST Account');
+        insert testAccount;
+        Id accountId = testAccount.Id;
+        
+        //creat contact for the account
+        Contact testContact = new Contact(LastName = 'REST Contact', AccountId = accountId);
+        insert testContact;
+        
+        RestRequest request = new RestRequest();
+        request.requestUri = 'https://resourceful-bear-s7toht-dev-ed.lightning.force.com/services/apexrest/Accounts/'+ accountId +'/contacts' ;
+        request.httpMethod = 'GET';
+        RestContext.request = request;
+        // Call the method to test
+        Account retrievedAccount = AccountManager.getAccount();
+        // Verify results
+        System.assert(retrievedAccount != null);
+        System.assertEquals('REST Account', retrievedAccount.Name);
+        System.assertEquals(1, [SELECT count() FROM Contact WHERE AccountId = :accountId]);
+    }
+}
