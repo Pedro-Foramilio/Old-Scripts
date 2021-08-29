@@ -1,0 +1,34 @@
+@isTest
+public class AnimalLocatorTest {
+	@isTest static  void testGetCallout200() {
+
+        StaticResourceCalloutMock mock = new StaticResourceCalloutMock();
+        mock.setStaticResource('GetAnimalResourceById');
+        mock.setStatusCode(200);
+        mock.setHeader('Content-Type', 'application/json;charset=UTF-8');
+
+        Test.setMock(HttpCalloutMock.class, mock);
+
+        string result = AnimalLocator.getAnimalNameById(1);
+
+        System.assertNotEquals(null,result, 'The callout returned a null response.');
+
+        System.assertEquals('chicken',result, 'The name should be chiken.');
+     
+    }
+    
+    @isTest static  void testGetCalloutFail() {
+
+        StaticResourceCalloutMock mock = new StaticResourceCalloutMock();
+        mock.setStaticResource('GetAnimalResourceById');
+        mock.setStatusCode(500);
+        mock.setHeader('Content-Type', 'application/json;charset=UTF-8');
+
+        Test.setMock(HttpCalloutMock.class, mock);
+
+        string result = AnimalLocator.getAnimalNameById(1);
+
+        System.assertEquals(null,result, 'The callout returned a null response.');
+     
+    }
+}
