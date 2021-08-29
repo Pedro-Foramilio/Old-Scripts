@@ -3,6 +3,7 @@ public class AnimalLocatorTest {
 	@isTest static  void testGetCallout200() {
 
         StaticResourceCalloutMock mock = new StaticResourceCalloutMock();
+	//resource body: {"animal":{"id":1,"name":"chicken","eats":"chicken food","says":"cluck cluck"}}
         mock.setStaticResource('GetAnimalResourceById');
         mock.setStatusCode(200);
         mock.setHeader('Content-Type', 'application/json;charset=UTF-8');
