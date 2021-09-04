@@ -1,0 +1,77 @@
+public with sharing class MaintenanceRequestHelper {
+    
+    public static void updateWorkOrders(List<Case> oldCaseList) {
+        // TODO: Complete the method to update workorders
+        
+        System.debug('Beggining helper class execution');
+        List<Case> casesToInsert = new List<Case>();
+        List<List<Equipment_Maintenance_Item__c>> equipmentItemsToInsert = new List<List<Equipment_Maintenance_Item__c>>();
+        
+        
+        
+       List<Equipment_Maintenance_Item__c> AllEquipmentsItems =  [SELECT id,Equipment__c,Maintenance_Request__c,  Maintenance_Request__r.Vehicle__c, Equipment__r.Maintenance_Cycle__c
+																	FROM Equipment_Maintenance_Item__c 
+                                                                  WHERE Maintenance_Request__c IN :oldCaseList];
+        
+        for (Case oldCase : oldCaseList) {
+            
+            //retrieving Equipment Maintenance Item list for the case
+            List<Equipment_Maintenance_Item__c> equipmentItemsList = new List<Equipment_Maintenance_Item__c>();
+            
+            for (Equipment_Maintenance_Item__c item : AllEquipmentsItems) {
+                
+                if ((item.Maintenance_Request__c == oldCase.Id) && item != null) {
+                    equipmentItemsList.add(item);
+                }
+            }
+            
+            //retrieving smallest maintenance cycle
+            Decimal smallest = 0;
+            if (equipmentItemsList.size() > 0) {
+                smallest = equipmentItemsList[0].Equipment__r.Maintenance_Cycle__c;
+                for (Equipment_Maintenance_Item__c item : equipmentItemsList) {
+                    if(item.Equipment__r.Maintenance_Cycle__c < smallest)
+                        smallest = item.Equipment__r.Maintenance_Cycle__c;      
+                }
+            }
+            
+            
+            //creating new case
+            Case newMaintenancerequest = new Case(Type = 'Routine Maintenance',Vehicle__c = oldCase.Vehicle__c,
+                                                 Subject = 'Automatic Routine Maintenance', Date_Reported__c = Date.today(),
+                                                  Date_Due__c = Date.today().addDays((Integer) smallest));
+            casesToInsert.add(newMaintenancerequest);
+            
+            List<Equipment_Maintenance_Item__c> newEquipementItemsList = new List<Equipment_Maintenance_Item__c>();
+            for (Equipment_Maintenance_Item__c e : equipmentItemsList) {
+           
+                Equipment_Maintenance_Item__c newItem = e.clone(false, FALSE, false, false);
+                //newItem.Maintenance_Request__c = newMaintenancerequest.Id;
+                newEquipementItemsList.add(newItem);
+            }
+            System.debug('New Equipment List' + newEquipementItemsList);
+            
+            equipmentItemsToInsert.add(newEquipementItemsList);
+        }
+        insert casesToInsert;
+        
+        Case currentCase;
+        List<Equipment_Maintenance_Item__c> currentList;
+        List<Equipment_Maintenance_Item__c> finalInsertionList = new List<Equipment_Maintenance_Item__c>();
+        
+        for(Integer i = 0; i < equipmentItemsToInsert.size(); i++) {
+            currentCase = casesToInsert[i];
+            currentList = equipmentItemsToInsert[i];
+            for (Equipment_Maintenance_Item__c item : currentList) {
+                item.Maintenance_Request__c = currentCase.Id;
+                finalInsertionList.add(item);
+            }
+            
+        }
+        
+		insert finalInsertionList;        
+        
+        System.debug('Exiting helper class execution');
+    }        
+    
+}
