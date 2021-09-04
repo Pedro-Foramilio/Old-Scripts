@@ -1,0 +1,23 @@
+trigger MaintenanceRequest on Case (before update, after update) {
+    // ToDo: Call MaintenanceRequestHelper.updateWorkOrders
+    
+    if (Trigger.isAfter) {
+        List<Case> casesToUpdate = new List<Case>();
+   		System.debug('Trigger list size: '+ casesToUpdate.size());
+        
+        for (Case caso : Trigger.new) {
+            if (caso.status == 'Closed' && (caso.Type == 'Repair' || caso.Type == 'Routine Maintenance' ))
+            {
+                System.debug('Running trigger on case ID: ' + caso.Id + ', Number: ' + caso.CaseNumber);
+                casesToUpdate.add(caso);
+            }    
+    	}
+        
+        If (casesToUpdate.size() > 0) {
+        	System.debug('Invoking helper class');
+            System.debug('Trigger list: '+ casesToUpdate);
+        	MaintenanceRequestHelper.updateWorkOrders(casesToUpdate);
+        	System.debug('Context exited helper class');
+        }
+    }
+}
