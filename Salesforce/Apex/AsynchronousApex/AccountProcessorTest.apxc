@@ -1,0 +1,29 @@
+@isTest
+public class AccountProcessorTest {
+    
+    @isTest static void countContactsTest() {
+        Test.startTest();
+        List<Contact> contactsTest = new List<Contact>();
+        Account acc = new Account(Name = 'Account');
+        insert acc;
+        System.debug('Testing 0:' + acc.Name + ', ' + acc.Number_Of_Contacts__c);
+        for (Integer i = 0; i < 2; i++) {
+            contactsTest.add(new Contact(LastName = 'Con ' + i, AccountId = acc.Id));
+        }
+        insert contactsTest;
+        
+        List<Id> lis = new List<Id>();
+        lis.add(acc.Id);
+        
+        
+        AccountProcessor.countContacts(lis);
+        
+        Test.stopTest();
+        //the stopTest runs the asynchronous method, then executes below
+        List<Account> updatedAcc = [SELECT Number_Of_Contacts__c FROM Account WHERE Id = :lis[0]];
+        System.debug('Testing 1: ' + updatedAcc[0].Number_Of_Contacts__c);
+        System.assertEquals(2, updatedAcc[0].Number_Of_Contacts__c);
+        
+    }
+
+}

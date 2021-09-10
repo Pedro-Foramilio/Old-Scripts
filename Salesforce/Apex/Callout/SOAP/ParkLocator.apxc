@@ -1,0 +1,10 @@
+public class ParkLocator {
+    public static string[] country(String cn) {
+        ParkService.ParksImplPort park = new ParkService.ParksImplPort();
+        
+        string[] response = park.byCountry(cn);
+        return response;
+        //argument: Germany, respose:
+        //(Hamburg Wadden Sea National Park, Hainich National Park, Bavarian Forest National Park)
+    }
+}

@@ -1,0 +1,24 @@
+public class AccountProcessor {
+    
+    @future
+    public static void countContacts(List<Id> accountIds) {
+        List<Contact> contactList;
+        List<Account> accsToUpdate = new list<Account>();
+        Account tempAccount;
+        Integer counter;
+        
+        for (Id AccId : accountIds) {
+            System.debug('query: ' + AccId);
+            contactList = [SELECT LastName FROM Contact WHERE AccountId = :AccId];
+            counter = contactList.size();
+            System.debug('query: ' + counter);
+            tempAccount = [SELECT Id, Name, Number_Of_Contacts__c FROM Account WHERE Id = :AccId];
+            System.debug(tempAccount.Name + ', ' + tempAccount.Number_Of_Contacts__c);
+            tempAccount.Number_Of_Contacts__c = counter;
+            System.debug(tempAccount.Name + ', ' + tempAccount.Number_Of_Contacts__c);
+            accsToUpdate.add(tempAccount);         
+        }
+        update accsToUpdate;
+    }
+
+}

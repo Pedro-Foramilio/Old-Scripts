@@ -1,0 +1,9 @@
+global with sharing class WarehouseSyncSchedule implements Schedulable{
+    // implement scheduled code here
+    global void execute(SchedulableContext ctx) {
+        ID jobID = System.enqueueJob(new WarehouseCalloutService());
+        System.debug('JobId = ' + jobID);
+        AsyncApexJob jobInfo = [SELECT Status,NumberOfErrors FROM AsyncApexJob WHERE Id=:jobID];
+		System.debug(jobInfo);
+    }
+}
