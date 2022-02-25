@@ -14,48 +14,33 @@ struct Time
     struct Jogador *elenco;
 };
 
-float calculaMediaGols(struct Jogador *elenco, int n)
-{
-    int i, somaGols = 0;
-    for (i = 0; i < n; i++)
-    {
-        somaGols += elenco[i].qtdGols;
-    }
+typedef struct Jogador Jogador;
+typedef struct Time Time;
 
-    return ((float)somaGols)/(float)n;
-}
+float calculaMediaGols(Jogador *, int);
+
 
 int main()
 {
     int n, i, j;
     float mediaGols;
-    struct Time *times;
+    Time *times;
 
     scanf("%d", &n);
-    times = (struct Time *) malloc(n * sizeof(struct Time));
+    times = (Time *) malloc(n * sizeof(Time));
     for (i = 0; i < n; i++)
     {
         scanf("%s", times[i].nome);
         scanf("%d", &times[i].qtdJogadores);
 
-        times[i].elenco = (struct Jogador *) malloc(times[i].qtdJogadores * sizeof(struct Jogador));
+        times[i].elenco = (Jogador *) malloc(times[i].qtdJogadores * sizeof(Jogador));
 
         for (j = 0; j < times[i].qtdJogadores; j++)
         {
             scanf("%s %d", times[i].elenco[j].nome, &times[i].elenco[j].qtdGols);
         }
+    }
 
-    }
-/*
-    for (i = 0; i < n; i++)
-    {
-        printf("====%s====\n", times[i].nome);
-        for (j = 0; j < times[i].qtdJogadores; j++)
-        {
-            printf("%s\n", times[i].elenco[j].nome);
-        }
-    }
-*/
     for (i = 0; i < n; i++)
     {
         mediaGols = calculaMediaGols(times[i].elenco, times[i].qtdJogadores);
@@ -75,4 +60,15 @@ int main()
     free(times);
 
     return 0;
+}
+
+float calculaMediaGols(Jogador *elenco, int n)
+{
+    int i, somaGols = 0;
+    for (i = 0; i < n; i++)
+    {
+        somaGols += elenco[i].qtdGols;
+    }
+
+    return ((float)somaGols)/(float)n;
 }
