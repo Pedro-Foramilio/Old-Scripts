@@ -68,5 +68,11 @@ int main()
         }
     }
 
+    for (i = 0; i < n; i++)
+    {
+        free(times[i].elenco);
+    }
+    free(times);
+
     return 0;
 }
