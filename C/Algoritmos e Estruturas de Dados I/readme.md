@@ -11,3 +11,6 @@
 
 - [IDE Recomendada](https://cs50.io/) vinculada ao github
 - [Boca UFABC](http://bombonera.ufabc.edu.br/): RA e senha
+
+obs: file input para teste:
+```./Executavel < path/File```
