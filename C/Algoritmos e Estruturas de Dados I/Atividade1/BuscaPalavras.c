@@ -1,5 +1,18 @@
 #include <stdio.h>
 
+int comparaStrings(char a[], char b[])
+{
+    int i = 0;
+    while(a[i]!='\0' && b[i]!='\0')
+    {
+        if (a[i]!=b[i])
+            return 0;
+        i++;
+    }
+
+    return a[i] == b[i];
+}
+
 int main()
 {
     int nPalavras, qtdConsultas, resultados = 0;
@@ -20,7 +33,7 @@ int main()
         scanf("%s", pesquisa);
         for (int j = 0; j < nPalavras; j++)
         {
-            if (vetorPalavras[j] == pesquisa)
+            if (comparaStrings(vetorPalavras[j], pesquisa))
             {
                 resultados++;
             }
