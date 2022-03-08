@@ -67,3 +67,72 @@
 
             return -1;
         }
+        ```
+---
+
+## Algoritmos de Ordenação
+
+- **Problema da Ordenação**
+    Suponha uma colecao de V elementos de n elementos, deseja-se que V tenha a seguinte propriedade:
+    ```v_j <= v_j+1, 0 <=j < n-1, para todo v_j pertecente a V```
+
+- **Bubble Sort**
+    Mecanismo:
+        - Compara-se os n elementos do vetor, dois a dois
+        - Trocando de posição quando o i-esimo elemento for maior que o (i+1)-esimo elemento
+        - Repete-se para os n-1 elementos restantes
+        - Repete-se para os n-2 elementos restantes
+        - Ate que reste so 1 elemento 
+    
+    Eficiencia:
+        T(n) = (n^2 - n) /2
+        Ordem: O(n^2)
+    
+    ```c
+    void bubbleSort(int *v, int n)
+    {
+        int i, j, aux;
+        for (i=0; i<n-1; i++)
+        {
+            for (j=0; j< n-1-i; j++)
+            {
+                if (v[j] > v[j+1])
+                {
+                    aux = v[j];
+                    v[j] = v[j+1];
+                    v[j+1] = aux;
+                }
+            }
+        }
+    }
+    ```
+
+- **Selection Sort**
+    Ordena um vetor baseado em localizar o menor elemento e posiciona-lo na primeira posicao.
+    Entao encontra o segundo menor e coloca na segunda posicao, so on and so forth.
+
+    Eficiencia identica ao Bubble Sort do ponto de vista matematico, mas tende a consumir sensivelmente menos tempo devido a menor quantidade de trocas, se comparado ao numero de trocas que ocorrem em BubbleSort, o que também impacta atribuicoes de variaveis
+
+    No pior caso, bubble faz (n^2 - n) /2 comparacoes e (n^2 - n) /2 trocas.
+
+    Ja o selection faz (n^2 - n) /2 comparacoes mas so faz trocas depois de encontrar o menor elemento, realizando n-1 trocas. Assim o numero de operacoes e menor no SelectionSort
+
+    ```c
+    void selectionSort(int *v, int n)
+    {
+        int i, j, aux, iMin;
+        for (i=0; i<n-1; i++)
+        {
+            for (j=i+1, iMin = i; j<n; j++)
+            {
+                if (v[j] < v[iMin])
+                    iMin = j;
+            }
+
+            aux= v[i];
+            v[i] = v[iMin];
+            v[iMin = aux];
+        }
+    }
+    ```
+
