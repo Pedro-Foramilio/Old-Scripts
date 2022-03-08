@@ -37,8 +37,8 @@ void bubbleRecursivo(int *v, int n)
             v[i] = v[i+1];
             v[i+1] = aux;
         }
-        bubbleRecursivo(v, n-1);
     }
+    bubbleRecursivo(v, n-1);
 }
 
 void imprimeVetor(int *v, int n)
