@@ -131,7 +131,7 @@
 
             aux= v[i];
             v[i] = v[iMin];
-            v[iMin = aux];
+            v[iMin] = aux;
         }
     }
     ```
