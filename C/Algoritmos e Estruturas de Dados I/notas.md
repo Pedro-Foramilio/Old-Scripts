@@ -135,4 +135,28 @@
         }
     }
     ```
+- **Inserion Sort**
+    Eficiente para ordenar pequena quantidade de elementos. Insere cada elemento no lugar apropriado
+    
+    Percorre o elemento da esquerda pra direita deixando os elementos mais a esqueda sempre ordenados
 
+    Facil Implementacao, com ineficiencia pra entradas suficientemente grandes
+
+    ```c
+    void insertionSort(int *v, int n)
+    {
+        int chave, i, j;
+        for (i = 1; i < n; i++)
+        {
+            chave = vetor[i];
+            j = i-1;
+            while(j>=0 && vetor[j] >= chave)
+            {
+                vetor[j+1] = vetor[j];
+                vetor[j] = chave;
+                j--;
+            }
+        }
+    }
+    ```
+    
