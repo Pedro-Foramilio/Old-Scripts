@@ -159,4 +159,95 @@
         }
     }
     ```
+
+- **Lower Bound do Problema de Ordenação**
+
+    Ate agora, apreesntamos algoritimos que ordenam n numeros em tempo O(n^2), sendo o upper bound
+    Desejamos encontar um limite inferior teorico para este problema, a minima complexidade de tempo de quaisquer de suas resolucoes algoritimicas
+
+    - **Arvore de Comparações**
+        Qualquer algoritimo de ordenacao baseado em comparacoes pode ser representado em uma arvore binaria.
+        Na raiz fica a primeira comparacao realizado entre dois elementos, nos filhos, as comparacoes subsequentes. Assim as *folhas* dessa arvore representam as possiveis *solucoes* do problema.
+
+        A altura da arvore e o numero maximo de comparacoes que o algoritimo realiza (maior ramo), ou seja, seu tempo de pior caso
+
+        Na ordenacao de n elementos ha *n!* possiveis resultados, que correspondem as permutacoes desses elementos. Portanto, **qualquer arvore binaria de comparacoes tera no minimo *n!* folhas**
+        
+        - Supondo que a altura dessa arvore seja `h`, entao `LB(n) = h` (LB -> lower boud).
+            Sabemos que a quantidade de folhas de uma arvore binario de altura h e <=2^h^, portanto n! <= 2^h^.
+            Ou serja, h >= log~2~ n!
+            
+            Conclui-se que **LB(n) >= log~2~ n!**
+
+        n! pode ser grande de mais, nestes casos pode ser calculado usando **aproximacao de Stirling**:
+        $$ n! \approx \sqrt{2 \pi n} (\frac{n}{e})^{n} \Longrightarrow  \log_{2} n! \approx O(1) + O(\log_{2} n) + O(n \log_{2}n) - O(n) \Longrightarrow LB(n) = \Omega (n \log_{2} n)$$
+
+        Desta forma, se econtrarmos um algoritimo que resolva ordenacao em tempo $O(n \log_{2} n)$, ele sera **otimo** e esse problema estara **computacionalmente resolvido**.
+
+   
+
+- **Intercalacao**
+    - Problema:
+        Dado um vetor inteiro de tamanho n, bipartidos em dois subvetores, ambos ordenados. Fazer um procedimento que retorne o vetor intercalado tambem ordenado.
     
+    ```c
+    void intercala(int *v, int e, int m, int d)
+    {
+        int *temp, i, fim_esq = m-1;
+        temp = (int *) malloc(d * sizeof(int));
+
+        for (i=0; e <= fim_esq && m < d; i++)
+        {
+            if (v[e] < v[m])
+            {
+                temp[i] = v[e];
+                e++;
+            } else {
+                temp[i] = v[m];
+                m++;
+            }
+        }
+
+        for (; e <= fim_esq; e++, i++)
+        {
+            temp[i] = v[e];
+        }
+
+        for (; m < d; m++, i++)
+        {
+            temp[i] = v[m];
+        }
+
+        for (i = 0; i < d; i++)
+        {
+            v[i] = temp[i];
+        }
+
+        free(temp);
+    }
+    ```
+
+- **Merge Sort**
+    - Segue a tecnica de divisao e conquista. Intuitivamente opera da seguinte forma:
+        - Divisao: Quebra a sequencia de n elementos a serem ordenados em duas subsequencias de n/2 cada.
+        - Conquista: Classifica-se ambas subsequencias recursivamente, utilizando ordenacao por intercalacao.
+        - Combinacao: Intercala-se ambas subsequencias para formar a solucao do problema original
+
+    - Pros e Contras:
+        - Pros: ligeiramente melhor que outros algoritimos.
+        - Contras: Requer no minimo o dobro de memoria em comparacao a outros algoritimos.
+
+    $O(n \log_{2} n)$
+    ```c
+    void mergeSort(int *v, int e, int d)
+    {
+        int meio;
+        if (e < d)
+        {
+            meio = (d + e)/2;
+            mergeSort(v, e, meio);
+            mergeSort(v, meio+1, d);
+            intercala(v, e, meio+1, d);
+        }
+    }
+    ```
