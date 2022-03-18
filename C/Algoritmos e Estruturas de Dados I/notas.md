@@ -2,12 +2,12 @@
 
 ## Análise de Algoritmos e Algoritmos de Busca
 
-- **Problema da Busca**
-    Formalmente, suponha uma cole'cao ```V``` de elementos de tamanho ```n``` e um elemento ```x``` qualquer. Averiguar se ```x = V_i``` onde 0<= i < n
+### Problema da Busca
+Formalmente, suponha uma cole'cao ```V``` de elementos de tamanho ```n``` e um elemento ```x``` qualquer. Averiguar se ```x = V_i``` onde 0<= i < n
 
-- **Busca Linear**
-    Quantidade de comparacoes aumenta linearmente. O(n)
-    ```c
+### Busca Linear
+Quantidade de comparacoes aumenta linearmente. O(n)
+```c
     int busca(int *v, int n, int x)
     {
         int i;
@@ -18,20 +18,20 @@
         }
         return -1;
     }
-    ```
-    - Busca Linear Recursiva
-        Caso base: encontra ou acaba o espaco de busca
-        ```c
+```
+- **Busca Linear Recursiva**
+    Caso base: encontra ou acaba o espaco de busca
+    ```c
         int busca(int *v, int n, int x)
         {
             if (n < 1) return -1;
             if (v[n-1] == x) return n-1;
             return busca(v, n-1, x)
         }
-        ```
-- **Busca Binária**
-    PREMISSA: lista de elementos esta ordenada - O(log2 (n))
-    ```c
+    ```
+### Busca Binária
+PREMISSA: lista de elementos esta ordenada - O(log2 (n))
+```c
     int buscaBin(int *v, int n, in x)
     {
         int esq=0, dir=n-1, meio;
@@ -47,9 +47,9 @@
         }
         return -1;
     }
-    ```
-    - Busca Linear Recursvia:
-        ```c
+```
+- **Busca Linear Recursvia**:
+    ```c
         int buscaBin(int *v, int esq, int dir, int x)
         {
             int meio;
@@ -67,28 +67,28 @@
 
             return -1;
         }
-        ```
+    ```
 ---
 
-## Algoritmos de Ordenação
+# Algoritmos de Ordenação
 
-- **Problema da Ordenação**
-    Suponha uma colecao de V elementos de n elementos, deseja-se que V tenha a seguinte propriedade:
+## Problema da Ordenação
+Suponha uma colecao de V elementos de n elementos, deseja-se que V tenha a seguinte propriedade:
     ```v_j <= v_j+1, 0 <=j < n-1, para todo v_j pertecente a V```
 
-- **Bubble Sort**
-    Mecanismo:
-        - Compara-se os n elementos do vetor, dois a dois
-        - Trocando de posição quando o i-esimo elemento for maior que o (i+1)-esimo elemento
-        - Repete-se para os n-1 elementos restantes
-        - Repete-se para os n-2 elementos restantes
-        - Ate que reste so 1 elemento 
+## Bubble Sort
+Mecanismo:
+    - Compara-se os n elementos do vetor, dois a dois
+    - Trocando de posição quando o i-esimo elemento for maior que o (i+1)-esimo elemento
+    - Repete-se para os n-1 elementos restantes
+    - Repete-se para os n-2 elementos restantes
+    - Ate que reste so 1 elemento 
     
-    Eficiencia:
-        T(n) = (n^2 - n) /2
-        Ordem: O(n^2)
+Eficiencia:
+    T(n) = (n^2 - n) /2
+    Ordem: O(n^2)
     
-    ```c
+```c
     void bubbleSort(int *v, int n)
     {
         int i, j, aux;
@@ -105,19 +105,19 @@
             }
         }
     }
-    ```
+```
 
-- **Selection Sort**
-    Ordena um vetor baseado em localizar o menor elemento e posiciona-lo na primeira posicao.
-    Entao encontra o segundo menor e coloca na segunda posicao, so on and so forth.
+## Selection Sort
+Ordena um vetor baseado em localizar o menor elemento e posiciona-lo na primeira posicao.
+Entao encontra o segundo menor e coloca na segunda posicao, so on and so forth.
 
-    Eficiencia identica ao Bubble Sort do ponto de vista matematico, mas tende a consumir sensivelmente menos tempo devido a menor quantidade de trocas, se comparado ao numero de trocas que ocorrem em BubbleSort, o que também impacta atribuicoes de variaveis
+Eficiencia identica ao Bubble Sort do ponto de vista matematico, mas tende a consumir sensivelmente menos tempo devido a menor quantidade de trocas, se comparado ao numero de trocas que ocorrem em BubbleSort, o que também impacta atribuicoes de variaveis
 
-    No pior caso, bubble faz (n^2 - n) /2 comparacoes e (n^2 - n) /2 trocas.
+No pior caso, bubble faz (n^2 - n) /2 comparacoes e (n^2 - n) /2 trocas.
 
-    Ja o selection faz (n^2 - n) /2 comparacoes mas so faz trocas depois de encontrar o menor elemento, realizando n-1 trocas. Assim o numero de operacoes e menor no SelectionSort
+Ja o selection faz (n^2 - n) /2 comparacoes mas so faz trocas depois de encontrar o menor elemento, realizando n-1 trocas. Assim o numero de operacoes e menor no SelectionSort
 
-    ```c
+```c
     void selectionSort(int *v, int n)
     {
         int i, j, aux, iMin;
@@ -134,15 +134,15 @@
             v[iMin] = aux;
         }
     }
-    ```
-- **Inserion Sort**
-    Eficiente para ordenar pequena quantidade de elementos. Insere cada elemento no lugar apropriado
+```
+## Inserion Sort
+Eficiente para ordenar pequena quantidade de elementos. Insere cada elemento no lugar apropriado
     
-    Percorre o elemento da esquerda pra direita deixando os elementos mais a esqueda sempre ordenados
+Percorre o elemento da esquerda pra direita deixando os elementos mais a esqueda sempre ordenados
 
-    Facil Implementacao, com ineficiencia pra entradas suficientemente grandes
+Facil Implementacao, com ineficiencia pra entradas suficientemente grandes
 
-    ```c
+```c
     void insertionSort(int *v, int n)
     {
         int chave, i, j;
@@ -158,39 +158,39 @@
             }
         }
     }
-    ```
+```
 
-- **Lower Bound do Problema de Ordenação**
+## Lower Bound do Problema de Ordenação
 
-    Ate agora, apreesntamos algoritimos que ordenam n numeros em tempo O(n^2), sendo o upper bound
-    Desejamos encontar um limite inferior teorico para este problema, a minima complexidade de tempo de quaisquer de suas resolucoes algoritimicas
+Ate agora, apreesntamos algoritimos que ordenam n numeros em tempo O(n^2), sendo o upper bound
+Desejamos encontar um limite inferior teorico para este problema, a minima complexidade de tempo de quaisquer de suas resolucoes algoritimicas
 
-    - **Arvore de Comparações**
-        Qualquer algoritimo de ordenacao baseado em comparacoes pode ser representado em uma arvore binaria.
-        Na raiz fica a primeira comparacao realizado entre dois elementos, nos filhos, as comparacoes subsequentes. Assim as *folhas* dessa arvore representam as possiveis *solucoes* do problema.
+- Arvore de Comparações
+    Qualquer algoritimo de ordenacao baseado em comparacoes pode ser representado em uma arvore binaria.
+    Na raiz fica a primeira comparacao realizado entre dois elementos, nos filhos, as comparacoes subsequentes. Assim as *folhas* dessa arvore representam as possiveis *solucoes* do problema.
 
-        A altura da arvore e o numero maximo de comparacoes que o algoritimo realiza (maior ramo), ou seja, seu tempo de pior caso
+    A altura da arvore e o numero maximo de comparacoes que o algoritimo realiza (maior ramo), ou seja, seu tempo de pior caso
 
-        Na ordenacao de n elementos ha *n!* possiveis resultados, que correspondem as permutacoes desses elementos. Portanto, **qualquer arvore binaria de comparacoes tera no minimo *n!* folhas**
+    Na ordenacao de n elementos ha *n!* possiveis resultados, que correspondem as permutacoes desses elementos. Portanto, **qualquer arvore binaria de comparacoes tera no minimo *n!* folhas**
         
-        - Supondo que a altura dessa arvore seja `h`, entao `LB(n) = h` (LB -> lower boud).
-            Sabemos que a quantidade de folhas de uma arvore binario de altura h e <=2^h^, portanto n! <= 2^h^.
-            Ou serja, h >= log~2~ n!
+    - Supondo que a altura dessa arvore seja `h`, entao `LB(n) = h` (LB -> lower boud).
+        Sabemos que a quantidade de folhas de uma arvore binario de altura h e <=2^h^, portanto n! <= 2^h^.
+        Ou serja, h >= log~2~ n!
             
-            Conclui-se que **LB(n) >= log~2~ n!**
+        Conclui-se que **LB(n) >= log~2~ n!**
 
-        n! pode ser grande de mais, nestes casos pode ser calculado usando **aproximacao de Stirling**:
-        $$ n! \approx \sqrt{2 \pi n} (\frac{n}{e})^{n} \Longrightarrow  \log_{2} n! \approx O(1) + O(\log_{2} n) + O(n \log_{2}n) - O(n) \Longrightarrow LB(n) = \Omega (n \log_{2} n)$$
+    n! pode ser grande de mais, nestes casos pode ser calculado usando **aproximacao de Stirling**:
+    $$ n! \approx \sqrt{2 \pi n} (\frac{n}{e})^{n} \Longrightarrow  \log_{2} n! \approx O(1) + O(\log_{2} n) + O(n \log_{2}n) - O(n) \Longrightarrow LB(n) = \Omega (n \log_{2} n)$$
 
-        Desta forma, se econtrarmos um algoritimo que resolva ordenacao em tempo $O(n \log_{2} n)$, ele sera **otimo** e esse problema estara **computacionalmente resolvido**.
+    Desta forma, se econtrarmos um algoritimo que resolva ordenacao em tempo $O(n \log_{2} n)$, ele sera **otimo** e esse problema estara **computacionalmente resolvido**.
 
    
 
-- **Intercalacao**
-    - Problema:
-        Dado um vetor inteiro de tamanho n, bipartidos em dois subvetores, ambos ordenados. Fazer um procedimento que retorne o vetor intercalado tambem ordenado.
+### Intercalacao
+- Problema:
+    Dado um vetor inteiro de tamanho n, bipartidos em dois subvetores, ambos ordenados. Fazer um procedimento que retorne o vetor intercalado tambem ordenado.
     
-    ```c
+```c
     void intercala(int *v, int e, int m, int d)
     {
         int *temp, i, fim_esq = m-1;
@@ -225,20 +225,20 @@
 
         free(temp);
     }
-    ```
+```
 
-- **Merge Sort**
-    - Segue a tecnica de divisao e conquista. Intuitivamente opera da seguinte forma:
-        - Divisao: Quebra a sequencia de n elementos a serem ordenados em duas subsequencias de n/2 cada.
-        - Conquista: Classifica-se ambas subsequencias recursivamente, utilizando ordenacao por intercalacao.
-        - Combinacao: Intercala-se ambas subsequencias para formar a solucao do problema original
+### Merge Sort
+- Segue a tecnica de divisao e conquista. Intuitivamente opera da seguinte forma:
+    - Divisao: Quebra a sequencia de n elementos a serem ordenados em duas subsequencias de n/2 cada.
+    - Conquista: Classifica-se ambas subsequencias recursivamente, utilizando ordenacao por intercalacao.
+    - Combinacao: Intercala-se ambas subsequencias para formar a solucao do problema original
 
-    - Pros e Contras:
-        - Pros: ligeiramente melhor que outros algoritimos.
-        - Contras: Requer no minimo o dobro de memoria em comparacao a outros algoritimos.
+- Pros e Contras:
+     - Pros: ligeiramente melhor que outros algoritimos.
+     - Contras: Requer no minimo o dobro de memoria em comparacao a outros algoritimos.
 
-    $O(n \log_{2} n)$
-    ```c
+$O(n \log_{2} n)$
+```c
     void mergeSort(int *v, int e, int d)
     {
         int meio;
@@ -250,4 +250,142 @@
             intercala(v, e, meio+1, d);
         }
     }
-    ```
+```
+
+## Particionamento
+
+### Problema do Particionamento
+Dado um vetor `v` de `n` posicoes e um indice `p` qualquer, desenvolva um procedimento que garanta que todos os elementos com **indice menores que `p` sao menores ou iguais a `v[p]`** e todos os elementos com indices **maiores que `p` sao maiores que `v[p]`**
+
+$$ V[0] ... V[p-1] \leq V[p] \lt V[p+1] ... V[n-1] $$
+
+### Particionamento
+```
+pm = -1
+enquanto i < n-1
+    v[i] <= v[p] ?
+        sim:
+            pm = pm + 1
+            troca v[i] com v[pm]
+            i = i + 1
+        Nao:
+            i = i + 1
+```
+p e o pivo, considerado como o `v[n-1]` (ultimo elemento), pm -> primeiro menor
+Consumo de Tempo: $O(n)$
+```c
+    int particiona( int *v, int n)
+    {
+        int pm = -1, i, aux;
+        for (i=0; i < n-1; i++)
+        {
+            if (v[i] <= v[n-1])
+            {
+                pm++;
+                aux = v[pm];
+                v[pm] = v[i];
+                v[i] = aux;
+            }
+        }
+
+        aux = v[pm+1];
+        v[pm+1] = v[n-1];
+        v[n-1] = aux;
+        return pm+1;
+    }
+```
+
+obs: com a realizacao do particionamento, **o pivo fica na posicao correta do vetor ordenado**. Aplicando esse algoritmo recursivamente, implementa-se o quicksort
+
+### Quick Sort
+Considerado o metodo de ordenacao mais eficiente ate os dias atuais.`
+
+- **Particiona**
+```c
+    int particiona(int *v, int e, int d)
+    {
+        int pm = e-1, i, aux;
+        for (i = e; i < d; i++)
+        {
+            if (v[i] <= v[d])
+            {
+                pm++;
+                aux = v[pm];
+                v[pm] = v[i];
+                v[i] = aux;
+            }
+        }
+
+        aux = v[pm+1];
+        v[pm +1] = v[d];
+        v[d] = aux;
+        return pm+1;
+    }
+```
+- **Quick Sort**
+```c
+    void quickSort(int *v, int e, int d)
+    {
+        int p;
+        if (e < d)
+        {
+            p = particiona(v, e, d);
+            quickSort(v, e, p-1);
+            quickSort(v, p+1, d)
+        }
+    }
+```
+Melhor Caso: $O(n * log_{2}n)$
+Pior Caso: $O(n^2)$
+
+- **Caso Medio**
+    $O(n * log_{2}n)$ no caso medio, com numero de comparacoes sendo 39% maior que no melhor caso, ou seja, no caso medio a eficiencia e mais proxima do melhor caso do que do 
+
+### Quick Sort Aleatorio
+Ideia: fugir do pior caso, sempre
+
+- **Quick Sort**
+```c
+    void quickSort(int *v, int e, int d)
+    {
+        int p, tam, i, aux;
+        if (e < d)
+        {
+            //trocar o pivo com um elemento aleatorio no meio do vetor
+            tam = (d-e)+1;
+            i = (rand()%tam)+e;
+            aux = v[d];
+            v[d] = v[i];
+            v[i] = aux;
+
+            p = particiona(v, e, d);
+            quickSort(v, e, p-1);
+            quickSort(v, p+1, d)
+        }
+    }
+```
+
+## Resumo de Eficiencia
+- **Bubble Sort**
+    - Pior Caso: $O(n^2)$
+    - Melhor Caso: $O(n^2)$
+    (complexidade de espaco constante)
+- **Selection Sort**
+    - Pior Caso: $O(n^2)$
+    - Melhor Caso: $O(n^2)$
+    (complexidade de espaco constante)
+- **Insertion Sort**
+    - Pior Caso: $O(n^2)$
+    - Melhor Caso: $O(n)$
+    (complexidade de espaco constante)
+- **Merge Sort**
+    - Pior Caso: $O(n * log_{2}n)$
+    - Melhor Caso: $O(n * log_{2}n)$
+    (complexidade de espaco de $n$)
+- **Quick Sort**
+    - Pior Caso: $O(n^2)$
+    - Melhor Caso: $O(n * log_{2}n)$
+
+
+
+
