@@ -387,5 +387,51 @@ Ideia: fugir do pior caso, sempre
     - Melhor Caso: $O(n * log_{2}n)$
 
 
+---
 
+# Heap
 
+Heap e uma arvore *binaria* com duas propriedades:
+- **Balanceamento**: E uma arvore completa (completa == ter todos os filhos), com a eventual excecao do ultimo nivel, onde as folhas sempre estao nas posicoes mais a esquerda
+- **Estrutural**
+    - Heap de **Maximo**: O valor armazenado em cada no *nao e menor* que os de seus filhos. (o valor do no sempre e maior ou igual aos seus filhos).
+    - Heap de **Minimo**: O valor de cada no *nao e maior* que os de seus filhos. (o valor do no sempre e menor ou igual aos seus filhos).
+
+## Relacoes de Heap representado em vetor
+
+Um heap e representado em um vetor de forma que cada no da arvore possui um indice, partindo do 0 - no raiz, 1-filho da esquerda, 2-filho da direita, 3-Filho da esquerda de 1, 4-Filho da direita de 1...
+
+- A raiz esta em v[0]. **O maior elemento da colecao sempre estara no indice 0 do vetor**. (heap max).
+- o *Filho Esquerdo* de um no `i` esta sempre no indicie `2i+1`
+- *Pai* de um no `i` esta sempre no indice `(i-1)/2` (arrendondado pra baixo)
+- **Ultimo Pai** (ultimo no que tem filhos) sempre esta no indicie `(n/2) - 1` com a divisao arredondada para baixo
+    - Consequencia: **Folhas**: Qualquer no com indice `i`, `(n/2) <= i < n` trata-se de no da folha
+
+## Perda da Propriedade Estrutural
+
+Caso um no de um heap perca a sua propriedade estrutural, podera recupera-la trocando de valor com o seu filho maior. Isso pode ser feito atraves do algoritmo **Peneirar (Sift)**
+
+Uma vez que o filho trocou de lugar com o pai, a subarvore que protagonizou a troca pode ter perdido a propriedade estrutural do heap e tambem precisara invocar SIFT para ela.
+
+## Construcao de um Heap
+
+O algoritmo CONSTRUIR transforma um vetor qualquer em um heap.
+
+Como os indicies `i`, `(n/2)` <= `i` < `n` sao folhas, basta aplicar *peneirar* entre as posicoes 0 e `(n/2)-1`, ou seja, todos os nos que sao pais.
+
+## Operacoes Basicas de um Heap
+- **Operacoes Principais**
+    - Incluir item no Heap.
+        deve ser a folha no ultimo nivel, na primeira posicao disponivel mais a esquerda. Se estiver cheio, comece mais um nivel. Chame `construir`
+    - Remover Item do Heap (remover maximo)
+        Troca-se o elemento raiz, indice 0, com o ultimo elemento do heap. Decrementa-se a quantidade. Invoca-se `peneirar` na raiz.
+
+- **Opeacoes Secundarias** (apoiam as Ops Principais)
+    - Filho Esquerda
+    - Filho Direita
+    - Pai
+    - Ultimo Pai
+    - Peneirar
+    - Construir (obtem heap a partir de um vetor qualquer)
+
+timestamp: 01:30:04
