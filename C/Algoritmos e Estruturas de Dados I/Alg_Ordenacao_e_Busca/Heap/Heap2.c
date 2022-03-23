@@ -16,24 +16,36 @@ int ultimoPai(int);
 void peneirar(struct Heap *, int);
 void constroiHeap(struct Heap *);
 
+void inserirHeap(struct Heap *, int);
+int removerHeap(struct Heap *);
+void mostrarHeap(struct Heap);
+
 int main()
 {
-    int n, i;
     struct Heap h;
+    int chave, n;
+    char op;
 
-    while (scanf("%d", &n) != EOF)
+    scanf("%d", &n);
+    h = criaHeap(n);
+
+    while(scanf("\n%c", &op) != EOF)
     {
-        h = criaHeap(n);
-        for (i = 0; i < h.tamanho; i++)
+        if (op == 'I')
         {
-            scanf("%d", &h.itens[i]);
-
+            scanf("%d", &chave);
+            inserirHeap(&h, chave);
         }
-        constroiHeap(&h);
-
-        for (i = 0; i < h.tamanho; i++)
+        else if (op == 'R')
         {
-            printf("%d%s", h.itens[i], i < h.tamanho-1 ? " " : "\n");
+            if (h.quantidade > 0)
+            {
+                chave = removerHeap(&h);
+                printf("%d\n", chave);
+            }
+        } else if (op == 'M')
+        {
+            mostrarHeap(h);
         }
     }
 
@@ -44,8 +56,43 @@ struct Heap criaHeap(int n)
 {
     struct Heap h;
     h.tamanho = n;
+    h.quantidade = 0;
     h.itens = (int *) malloc(n * sizeof(int));
     return h;
+}
+
+void inserirHeap(struct Heap *h, int chave)
+{
+    if (h->quantidade < h->tamanho)
+    {
+        h->itens[h->quantidade] = chave;
+        h->quantidade++;
+        constroiHeap(h);
+    }
+}
+
+int removerHeap(struct Heap *h)
+{
+    int aux, rem;
+    if (h->quantidade > 0)
+    {
+        rem = h->itens[0];
+        aux = h->itens[0];
+        h->itens[0] = h->itens[h->quantidade - 1];
+        h->itens[h->quantidade - 1] = aux;
+        h->quantidade--;
+        peneirar(h, 0);
+    }
+    return rem;
+}
+
+void mostrarHeap(struct Heap h)
+{
+    int i;
+    for (i = 0; i < h.quantidade; i++)
+    {
+        printf("%d%s", h.itens[i], i < h.quantidade-1 ? " " : "\n");
+    }
 }
 
 int filhoEsquerda(int p)
@@ -58,21 +105,21 @@ int filhoDireita(int p)
     return 2*p + 2;
 }
 
-int ultimoPai(int n)
+int ultimoPai(int q)
 {
-    return (n/2) - 1;
+    return (q/2) - 1;
 }
 void peneirar(struct Heap *h, int p)
 {
     int iMaior = p, aux;
 
-    if (filhoEsquerda(p) < h->tamanho && 
+    if (filhoEsquerda(p) < h->quantidade && 
         h->itens[filhoEsquerda(p)] > h->itens[iMaior])
     {
         iMaior = filhoEsquerda(p);
     }
 
-    if (filhoDireita(p) < h->tamanho && 
+    if (filhoDireita(p) < h->quantidade && 
         h->itens[filhoDireita(p)] > h->itens[iMaior])
     {
         iMaior = filhoDireita(p);
@@ -90,7 +137,7 @@ void peneirar(struct Heap *h, int p)
 void constroiHeap(struct Heap *h)
 {
     int i;
-    for(i = ultimoPai(h->tamanho); i >= 0; i--)
+    for(i = ultimoPai(h->quantidade); i >= 0; i--)
     {
         peneirar(h, i);
     }

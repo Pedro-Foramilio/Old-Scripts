@@ -433,5 +433,3 @@ Como os indicies `i`, `(n/2)` <= `i` < `n` sao folhas, basta aplicar *peneirar* 
     - Ultimo Pai
     - Peneirar
     - Construir (obtem heap a partir de um vetor qualquer)
-
-timestamp: 01:30:04
