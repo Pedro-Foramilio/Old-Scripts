@@ -49,6 +49,7 @@ int main()
         }
     }
 
+    free(h.itens);
     return 0;
 }
 

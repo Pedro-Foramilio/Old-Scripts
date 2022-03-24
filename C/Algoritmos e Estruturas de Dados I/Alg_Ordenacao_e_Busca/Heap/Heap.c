@@ -33,6 +33,7 @@ int main()
         {
             printf("%d%s", h.itens[i], i < h.tamanho-1 ? " " : "\n");
         }
+        free(h.itens);
     }
 
     return 0;
