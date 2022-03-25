@@ -433,3 +433,16 @@ Como os indicies `i`, `(n/2)` <= `i` < `n` sao folhas, basta aplicar *peneirar* 
     - Ultimo Pai
     - Peneirar
     - Construir (obtem heap a partir de um vetor qualquer)
+
+## Heap Sort - Ordenacao de heaps binarios
+
+Pros: Mais estavel que QuickSort
+Contras: COnstruir o heap consome muita memoria
+Consumo de tempo no pior caso: $O(n * log_{2}n)$
+
+- **Funcionamento**
+    1. Transformacao de um vetor em um heap binario (constroiHeap)
+    1. Ordenacao
+        1. A cada iteracao obtem-se o maior elemento do heap (raiz do heap, indice 0 do vetor) e adicione-o em um segmento ordenado
+        1. Apos a subtracao da raiz, reorganiza-se o heap (restauraHeap - ou - peneirar)
+
