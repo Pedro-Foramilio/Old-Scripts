@@ -135,7 +135,7 @@ Ja o selection faz (n^2 - n) /2 comparacoes mas so faz trocas depois de encontra
         }
     }
 ```
-## Inserion Sort
+## Insertion Sort
 Eficiente para ordenar pequena quantidade de elementos. Insere cada elemento no lugar apropriado
     
 Percorre o elemento da esquerda pra direita deixando os elementos mais a esqueda sempre ordenados
