@@ -61,6 +61,8 @@ int main()
         }
     }
 
+    free(lista.itens);
+
     return 0;
 }
 
