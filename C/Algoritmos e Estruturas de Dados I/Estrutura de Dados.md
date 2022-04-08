@@ -71,3 +71,29 @@ Seja `Q` uma fila com `n` elementos e `i` um indice da lista tal que `0 <= i <= 
     Um *fix* para este problema e detectar que a fila esta vazia e resetar o vetor, ou seja, indicar inicio e fim pro comeco do vetor como riginalmente comecaram. Isso no entando ainda nao permite que uma lista que foi preenchida ate o limite, apos `j < n` remocoes permita `j` insercoes. E necessario esvaziar por completo a fila para utiliza-la novamente.
 
     **Solucao Definitiva: Fila Circular**
+
+# Pilhas
+
+- Admite insercao e remocao de itens em apenas uma das extremidades chamada topo.
+
+- Sempre que houver insercao ou remocao de elemento, isso acontecera no topo.
+    Ao remover, deixara a pilha o que estiver a **menos** tempo na pilha
+
+- LIFO: *Last In First Out*
+
+- **Por que usar filas?**
+    - Custo: Isercao e Remocao O(1) com busca O(n)
+
+- **Estrutura de dados do tipo Pilha**:
+    1. Pilha Estatica
+    1. Pilhas Multiplas
+    1. Pilha Dinamica
+
+## Pilha Estatica
+
+- **Operacoes Basicas**
+    1. Insercao de um elemento na Pilha
+    1. Remocao de um elemento da Pilha
+
+
+timestamp = 1:26:00
