@@ -35,5 +35,39 @@ Seja `L` uma lista com `n` elementos e `i` um indicie da lista tal que `0 <= i <
     1. Eliminacao de um elemento
     1. Consulta da pertinencia de um elemento
 
+# Filas
 
+- Uma Fila e uma estrutura de dados que admite insercao de novos elementos e remocao de elementos antigos
+- Uma fila "queue" e uma estrutura sujeita a seguinte regra de operacao:
+    **Sempre que houver uma remocao, o elemento removido e o que esta na estrutura a mais tempo**
+- FIFO: *First In First Out*
 
+- **Por que usar filas?**
+    - Custo: Isercao e Remocao O(1) com busca O(n)
+
+- **Formas de Implementacao**:
+    1. **Estaticas**: os elementos sao armazenados em um vetor
+    1. **Dinamicas**: Os elementos sao alocados dinamicamente conforme necessidade. Cada elemento armazena os dados e um ponteiro para o proximo elemento da lista.
+
+- **Estrutura de Dados do tipo Fila**:
+    1. Fila Estatica
+    1. Fila Estatica Circular
+    1. Fila Dupla (Deque)
+    1. Fila Dinamica
+    1. Fila Dinamica Circular
+    1. Fila de Prioridade
+
+## Fila Estatica
+
+Seja `Q` uma fila com `n` elementos e `i` um indice da lista tal que `0 <= i <= n-1`
+
+- **Operacoes Basicas**
+    1. Insercao de um elemento na Fila (Enfileirar)
+    1. Elimitar (Desenfileirar)
+
+- **Problema de Overflow**
+    Ao se utilizar uma Fila estatica como vetor de tamanho `n`, ao se inserir `n` elementos, por mais que se remova `n-1` elementos, o indicador de fim e comeco apontam para o fim da fila, havendo entao um problema de nao permitir inserao mesmo com a fila possuindo `1` elemento. alem disso, remover o ultimo elemento ira causar o indicador de inicio apontar para a posicao `n`, alem dos limites da lista.
+
+    Um *fix* para este problema e detectar que a fila esta vazia e resetar o vetor, ou seja, indicar inicio e fim pro comeco do vetor como riginalmente comecaram. Isso no entando ainda nao permite que uma lista que foi preenchida ate o limite, apos `j < n` remocoes permita `j` insercoes. E necessario esvaziar por completo a fila para utiliza-la novamente.
+
+    **Solucao Definitiva: Fila Circular**
