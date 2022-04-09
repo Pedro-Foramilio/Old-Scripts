@@ -72,6 +72,13 @@ Seja `Q` uma fila com `n` elementos e `i` um indice da lista tal que `0 <= i <= 
 
     **Solucao Definitiva: Fila Circular**
 
+## Fila Estatica Circular
+
+- Os elementos da lista sao dispostos conforme sua entrada na fila
+- So e permitido a inclusao no final da fila e eliminacao no inicio (FIFO)
+- Quando se desenfilera um item, a posicao pode ser usada novamente para novos, resolvendo o problema da Fila Estatica
+- **Apos o ultimo item do vetor vem o primeiro, e antes do primeiro tem o ultimo**
+
 # Pilhas
 
 - Admite insercao e remocao de itens em apenas uma das extremidades chamada topo.
@@ -95,5 +102,3 @@ Seja `Q` uma fila com `n` elementos e `i` um indice da lista tal que `0 <= i <= 
     1. Insercao de um elemento na Pilha
     1. Remocao de um elemento da Pilha
 
-
-timestamp = 1:26:00
