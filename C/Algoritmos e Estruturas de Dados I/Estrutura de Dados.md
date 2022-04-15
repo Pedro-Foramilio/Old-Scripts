@@ -79,6 +79,17 @@ Seja `Q` uma fila com `n` elementos e `i` um indice da lista tal que `0 <= i <= 
 - Quando se desenfilera um item, a posicao pode ser usada novamente para novos, resolvendo o problema da Fila Estatica
 - **Apos o ultimo item do vetor vem o primeiro, e antes do primeiro tem o ultimo**
 
+## Fila Dinamica
+
+- Itens encadeados conforma entrada
+- Se inclui itens na cauda (apos o ultimo)
+- Eliminacao so permitida do inicio
+- *FIFO? First In First Out*
+
+- Em Ciencia da Computacao uma *fila dinamica* e uma estrutura de dados que:
+    1. Consiste de uma sequencia de registros
+    1. Cada registro tem um campo que contem um ponteiro para o proximo da fila
+
 # Pilhas
 
 - Admite insercao e remocao de itens em apenas uma das extremidades chamada topo.
@@ -101,4 +112,17 @@ Seja `Q` uma fila com `n` elementos e `i` um indice da lista tal que `0 <= i <= 
 - **Operacoes Basicas**
     1. Insercao de um elemento na Pilha
     1. Remocao de um elemento da Pilha
+
+## Pilha Dinamica
+
+- Os itens sao encadeados conforme entrada na pilha
+- So se inclui itens no topo da pilha (LIFO)
+- Nao sao armazenados fisicamente em posicoes contiguas de memoria.
+    **Rastreabilidade promovida pelos ponteiros**
+- *LIFO: Last In First Out*
+
+
+- Em Ciencia da Computacao, uma *pilha dinamica* e uma estrutura de dados que:
+    1. Consiste de uma sequencia de registros
+    1.Cada registro tem um campos que contem um ponteiro para o anterior da pilha
 
