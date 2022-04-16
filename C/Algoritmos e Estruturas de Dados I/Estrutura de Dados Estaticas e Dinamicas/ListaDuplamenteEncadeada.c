@@ -27,6 +27,7 @@ int main(void)
 {
     struct Lista *lista = criaLista();
     struct Item *it;
+    struct Item *_;
     int chave;
     char op;
 
@@ -44,6 +45,7 @@ int main(void)
             if (it != NULL)
             {
                 printf("item %d removido da lista\n", it->chave);
+                free(it);
             }
         }
         else if(op == 'B')
@@ -60,6 +62,16 @@ int main(void)
             mostrarListaUltimoPrimeiro(lista);
         }
     }
+
+    //desalocar lista final
+    it = lista->primeiro;
+    while (it != NULL)
+    {
+        _ = it->proximo;
+        free(it);
+        it = _;
+    }
+    free(lista);
 
     return 0;
 }
