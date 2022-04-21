@@ -1,0 +1,123 @@
+#include <stdlib.h>
+#include <stdio.h>
+
+struct Item
+{
+    int chave;
+};
+
+struct PilhaEstatica
+{
+    struct Item *itens;
+    int tamanho;
+    int topo;
+};
+
+struct PilhaEstatica criaPilhaEstatica(int);
+struct Item criaItem(int);
+int pilhaVazia(struct PilhaEstatica);
+int pilhaCheia(struct PilhaEstatica);
+void empilhar(struct PilhaEstatica *, struct Item);
+struct Item desempilhar(struct PilhaEstatica *);
+void mostrarPilhaBaseTopo(struct PilhaEstatica);
+void mostrarPilhaTopoBase(struct PilhaEstatica);
+
+int main(void)
+{
+    struct PilhaEstatica pilha;
+    int n, chave;
+    char op;
+
+    scanf("%d", &n);
+    pilha = criaPilhaEstatica(n);
+
+    while (scanf("\n%c", &op) != EOF)
+    {
+        if (op == 'E')
+        {
+            scanf("%d", &chave);
+            empilhar(&pilha, criaItem(chave));
+
+        }
+
+        else if (op == 'D')
+        {
+            if (! pilhaVazia(pilha))
+                desempilhar(&pilha);
+        }
+
+        else if (op == 'B')
+        {
+            mostrarPilhaBaseTopo(pilha);
+        }
+        else if (op == 'T')
+        {
+            mostrarPilhaTopoBase(pilha);
+        }
+    }
+
+
+    return 0;
+}
+
+struct PilhaEstatica criaPilhaEstatica(int n)
+{
+    struct PilhaEstatica p;
+    p.itens = (struct Item *) malloc(n * sizeof(struct Item));
+    p.tamanho = n;
+    p.topo = -1;
+    return p;
+}
+
+struct Item criaItem(int chave)
+{
+    struct Item it;
+    it.chave = chave;
+    return it;
+}
+
+int pilhaVazia(struct PilhaEstatica p)
+{
+    return p.topo == -1;
+}
+
+int pilhaCheia(struct PilhaEstatica p)
+{
+    return p.topo == p.tamanho - 1;
+}
+
+void empilhar(struct PilhaEstatica *p, struct Item novo)
+{
+    if (pilhaCheia(*p)) return;
+    p->topo++;
+    p->itens[p->topo] = novo;
+}
+
+struct Item desempilhar(struct PilhaEstatica *p)
+{
+    struct Item it;
+    if (! pilhaVazia(*p))
+    {
+        it = p->itens[p->topo];
+        p->topo--;
+    }
+    return it;
+}
+
+void mostrarPilhaBaseTopo(struct PilhaEstatica p)
+{
+    int i;
+    for (i = 0; i <= p.topo; i++)
+    {
+        printf("%d%s", p.itens[i].chave, "\n");
+    }
+}
+
+void mostrarPilhaTopoBase(struct PilhaEstatica p)
+{
+    int i;
+    for (i = p.topo; i >= 0; i--)
+    {
+        printf("%d%s", p.itens[i].chave, "\n");
+    }
+}
