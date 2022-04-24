@@ -126,3 +126,31 @@ Seja `Q` uma fila com `n` elementos e `i` um indice da lista tal que `0 <= i <= 
     1. Consiste de uma sequencia de registros
     1.Cada registro tem um campos que contem um ponteiro para o anterior da pilha
 
+---
+
+# Arvores
+
+- **Definicao**
+    Dados dispostos de uma forma hierarquica: A arvore eh composta por um elemento principal chamado *raiz*, que possui ligacoes para outros elementos denominados *galhos* ou *filhos*. Estes galhos levam a outros elementos que tambem possuem outros galhos. O elementos que nao possue galhos eh conhecido como *folha* ou *no terminal*.
+
+- **Motivacao**
+    - Eficiente para armazenar informacoes
+    - Particularmente adequada quando eh necessario:
+        - Acesso Direto e Sequencial eficientes
+        - Facilidade de insercao e retirada de itens
+        - Otimizacao da utilizacao de memoria
+    - Eficiencia de operacoes: `O(log_b n)`, b->fator de ramificacao
+
+- Arvore Cheia:
+    Numeros Maximos de nos, com todas as folhas no mesmo nivel.
+
+- Principais tipos de Arvores:
+    1.Arvore Binarria
+    1. Arvore AVL (eh binaria, mas torna ela balanceada)
+    1. Arvore B
+    1. Arvore B+
+    1. Arvore Rubro-Negra
+    1. Heaps *
+
+- **Arvore Binaria de Busca**
+    Caso particular: todos os nos da subarvore da esquerda do no `k` sao menores que `k`
