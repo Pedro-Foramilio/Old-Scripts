@@ -22,6 +22,8 @@ Arvore * criaArvore();
 No * criaNo(int);
 void inserir(Arvore *, No *);
 void preOrder(No *);
+void postOrder(No *);
+void inOrder(No *);
 
 int main(void)
 {
@@ -40,9 +42,21 @@ int main(void)
         {
             
         }
-        else
+        else // M
         {
-            preOrder(arvore->raiz);
+            scanf("\n%c", &op);
+            if (op == 'P')
+            {
+                preOrder(arvore->raiz);
+            }
+            else if (op == 'I')
+            {
+                inOrder(arvore->raiz);
+            }
+            else // T
+            {
+                postOrder(arvore->raiz);
+            }
         }
     }
 
@@ -117,3 +131,22 @@ void preOrder(No *r)
     }
 }
 
+void postOrder(No *r)
+{
+    if (r != NULL)
+    {
+        postOrder(r->esquerda);
+        postOrder(r->direita);
+        printf("%d\n", r->chave);
+    }
+}
+
+void inOrder(No *r)
+{
+    if (r != NULL)
+    {
+        inOrder(r->esquerda);
+        printf("%d\n", r->chave);
+        inOrder(r->direita);
+    }
+}
