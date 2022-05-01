@@ -25,6 +25,7 @@ void preOrder(No *);
 void postOrder(No *);
 void inOrder(No *);
 No * remover(Arvore *, int);
+No * sucessor(No *);
 
 int main(void)
 {
@@ -165,6 +166,7 @@ No * remover(Arvore *t, int chave)
 {
     No *anterior = NULL;
     No *filho = t->raiz;
+    No *subs;
 
     while (filho != NULL && filho->chave != chave)
     {
@@ -205,6 +207,39 @@ No * remover(Arvore *t, int chave)
 
         else if (filho->esquerda != NULL && filho->direita != NULL) //eh pai de 2 filhos
         {
+            subs = sucessor(filho->direita); //pegar o menor dentro os maiores
+
+            if (anterior != NULL) // nao eh raiz
+            {
+                if (anterior->esquerda == filho) //remover filho da esquerda
+                {
+                    anterior->esquerda = subs;
+                }
+
+                else // filho da direita
+                {
+                    anterior->direita = subs;
+                }
+            }
+
+            else //eh raiz
+            {
+                t->raiz = subs;
+            }
+
+            subs->pai = anterior;
+
+            subs->esquerda = filho->esquerda;
+            if (filho->esquerda != NULL)
+            {
+                filho->esquerda->pai = subs;
+            }
+
+            subs->direita = filho->direita;
+            if (filho->direita != NULL)
+            {
+                filho->direita->pai = subs;
+            }
 
         }
 
@@ -260,4 +295,31 @@ No * remover(Arvore *t, int chave)
     }
 
     return filho;
+}
+
+No * sucessor(No *filho)
+{
+    No * anterior = NULL;
+    while( filho != NULL )
+    {
+        anterior = filho;
+        filho = filho->esquerda;
+    }
+
+    if (anterior->pai->esquerda == anterior) //anterior (sucessor) eh filho esquerdo  de seu pai
+    {
+        anterior->pai->esquerda = anterior->direita;
+    }
+
+    else //anterior (sucessor) eh filho direito de seu pai
+    {
+        anterior->pai->direita = anterior->direita;
+    }
+
+    if (anterior->direita != NULL)
+    {
+        anterior->direita->pai = anterior->pai;
+    }
+
+    return anterior;
 }
