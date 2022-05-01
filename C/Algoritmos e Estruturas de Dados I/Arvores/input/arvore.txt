@@ -13,4 +13,12 @@ I 55
 I 65
 I 75
 I 90
-M I
+M P
+R 45
+M P
+R 55
+M P
+R 40
+M P
+R 60
+M P
