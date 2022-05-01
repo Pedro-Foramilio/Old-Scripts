@@ -94,6 +94,7 @@ No * criaNo(int chave)
 }
 
 void inserir(Arvore *t, No *novo)
+//warning: bug com repeticao de chave???
 {
     No *pai = NULL;
     No *filho = t->raiz;
