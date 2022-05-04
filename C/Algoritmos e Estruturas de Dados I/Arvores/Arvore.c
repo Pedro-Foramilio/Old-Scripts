@@ -117,13 +117,13 @@ void inserir(Arvore *t, No *novo)
     if (pai != NULL) //inserindo uma folha
     {
         novo->pai = pai;
-        if (pai->chave > novo->chave) // filho da esquerda
+        if (pai->chave < novo->chave) // filho da esquerda
         {
-            pai->esquerda = novo;
+            pai->direita = novo;
         }
         else
         {
-            pai->direita = novo;
+            pai->esquerda = novo;
         }
     }
     else //inserindo raiz
