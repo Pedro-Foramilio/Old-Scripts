@@ -1,6 +1,7 @@
-//arvore binaria de busca
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+
 
 struct No
 {
@@ -27,51 +28,52 @@ void inOrder(No *);
 No * remover(Arvore *, int);
 No * sucessor(No *);
 
-int main(void)
+int main()
 {
     Arvore *arvore = criaArvore();
-    int chave;
-    char op;
+	int chave;
+	char comando[13];
     No *no;
 
-    while (scanf("\n%c", &op) != EOF)
-    {
-        if (op == 'I')
-        {
-            scanf("%d", &chave);
-            inserir(arvore, criaNo(chave));
-        }
-        else if (op == 'R')
-        {
-            scanf("%d", &chave);
-            no = remover(arvore, chave);
-            if (no != NULL)
-            {
-                printf("item %d removido da arvore\n", no->chave);
-                free(no);
-            }
+	while (scanf("%s", comando) != EOF)
+	{
+		if (strcmp(comando, "pre-order") == 0)
+		{
+			preOrder(arvore->raiz);
+			printf("\n");
+		}
+		else if (strcmp(comando, "in-order") == 0)
+		{
+			inOrder(arvore->raiz);
+			printf("\n");
+		}
+		else if (strcmp(comando, "post-order") == 0)
+		{
+			postOrder(arvore->raiz);
+			printf("\n");
+		}
+		else
+		{
+			scanf("%d", &chave);
+			if (strcmp(comando, "insert") == 0)
+			{
+				inserir(arvore, criaNo(chave));
+			}
+			else if (strcmp(comando, "delete") == 0)
+			{
+				no = remover(arvore, chave);
+				if (no != NULL)
+				{
+					printf("%d\n", no->chave);
+					free(no);
+				}
+			}
+		}
+	}
 
-        }
-        else // M
-        {
-            scanf("\n%c", &op);
-            if (op == 'P')
-            {
-                preOrder(arvore->raiz);
-            }
-            else if (op == 'I')
-            {
-                inOrder(arvore->raiz);
-            }
-            else // T
-            {
-                postOrder(arvore->raiz);
-            }
-        }
-    }
-
-    return 0;
+	return 0;
 }
+
 
 Arvore * criaArvore()
 {
@@ -103,7 +105,7 @@ void inserir(Arvore *t, No *novo)
     while (filho != NULL)
     {
         pai = filho;
-        if (filho->chave < novo->chave)
+        if (filho->chave <= novo->chave)
         {
             filho = filho->direita;
         }
@@ -117,7 +119,7 @@ void inserir(Arvore *t, No *novo)
     if (pai != NULL) //inserindo uma folha
     {
         novo->pai = pai;
-        if (pai->chave < novo->chave) // filho da direita
+        if (pai->chave <= novo->chave) // filho da direita
         {
             pai->direita = novo;
         }
@@ -136,7 +138,7 @@ void preOrder(No *r)
 {
     if (r != NULL)
     {
-        printf("%d\n", r->chave);
+        printf("%d ", r->chave);
         preOrder(r->esquerda);
         preOrder(r->direita);
     }
@@ -148,7 +150,7 @@ void postOrder(No *r)
     {
         postOrder(r->esquerda);
         postOrder(r->direita);
-        printf("%d\n", r->chave);
+        printf("%d ", r->chave);
     }
 }
 
@@ -157,7 +159,7 @@ void inOrder(No *r)
     if (r != NULL)
     {
         inOrder(r->esquerda);
-        printf("%d\n", r->chave);
+        printf("%d ", r->chave);
         inOrder(r->direita);
     }
 }
