@@ -4,7 +4,7 @@ import random as rd
 class Prisioneiro:
     numerosDisponiveis = [x for x in range(1, 101)] #static variable
     
-    def _init_(self):
+    def __init__(self):
         self.numero = rd.choice(Prisioneiro.numerosDisponiveis)
         self.achou_numero = False
         Prisioneiro.numerosDisponiveis.remove(self.numero)
@@ -15,7 +15,7 @@ class Prisioneiro:
 class Caixa:
     numeros = [x for x in range(1, 51)]
     contagem = 1
-    def _init_(self):
+    def __init__(self):
         self.id = Caixa.contagem
         Caixa.contagem = Caixa.contagem + 1
         self.numero = rd.choice(Caixa.numeros)
