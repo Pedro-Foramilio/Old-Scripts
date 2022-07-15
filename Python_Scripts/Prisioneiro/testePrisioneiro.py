@@ -13,7 +13,7 @@ class Prisioneiro:
         return self.numero
 
 class Caixa:
-    numeros = [x for x in range(1, 51)]
+    numeros = [x for x in range(1, 101)]
     contagem = 1
     def __init__(self):
         self.id = Caixa.contagem
@@ -32,6 +32,24 @@ def gerarPrisioneiros():
 def gerarCaixas():
     return [Caixa() for x in list(range(50))]
 
+def buscaCaixa(id: int, listaCaixa:list)->Caixa:
+    for c in listaCaixa:
+        if c.id == id:
+            return c
+    return None
+
+def procurarNumeroDoPrisioneiro(p:Prisioneiro, listaCaixas:list):
+    cx = buscaCaixa(p.numero, listaCaixas)
+    print(f'Prisioneiro: {p.getNumber()}')
+
+    for i in range(50):
+        print(f'cx.id = {cx.id}, cx.numero = {cx.numero}')
+        if p.numero == cx.numero:
+            p.achou_numero = True
+            break
+        else:
+            cx = buscaCaixa(cx.numero, listaCaixas)
+    print(f'--- --- ---')
 
 def main():
     prisioneiros = gerarPrisioneiros()
@@ -44,6 +62,15 @@ def main():
     print("--- Caixas ---")
     for c in caixas:
         print(f'Caixa_id: {c.getId()}, Caixa_numero: {c.getNumber()}')
+    
+    print("--- iniciando teste ---")
+    for p in prisioneiros:
+        procurarNumeroDoPrisioneiro(p, caixas)
+
 
 
 main()
+
+
+#fix 50 caixas -> 100
+#exception when busca returns None. Shouldnt return none 
