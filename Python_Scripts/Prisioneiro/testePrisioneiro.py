@@ -11,6 +11,7 @@ class Prisioneiro:
 
     def getNumber(self):
         return self.numero
+    
 
 class Caixa:
     numeros = [x for x in range(1, 101)]
@@ -26,11 +27,16 @@ class Caixa:
     def getNumber(self):
         return self.numero
 
+def _reset():
+    Prisioneiro.numerosDisponiveis = [x for x in range(1, 101)]
+    Caixa.numeros = [x for x in range(1, 101)]
+    Caixa.contagem = 1
+
 def gerarPrisioneiros():
     return [Prisioneiro() for x in list(range(100))]
 
 def gerarCaixas():
-    return [Caixa() for x in list(range(50))]
+    return [Caixa() for x in list(range(100))]
 
 def buscaCaixa(id: int, listaCaixa:list)->Caixa:
     for c in listaCaixa:
@@ -40,37 +46,47 @@ def buscaCaixa(id: int, listaCaixa:list)->Caixa:
 
 def procurarNumeroDoPrisioneiro(p:Prisioneiro, listaCaixas:list):
     cx = buscaCaixa(p.numero, listaCaixas)
-    print(f'Prisioneiro: {p.getNumber()}')
 
     for i in range(50):
-        print(f'cx.id = {cx.id}, cx.numero = {cx.numero}')
         if p.numero == cx.numero:
             p.achou_numero = True
             break
         else:
             cx = buscaCaixa(cx.numero, listaCaixas)
-    print(f'--- --- ---')
 
-def main():
+def realizarTeste():
     prisioneiros = gerarPrisioneiros()
     caixas = gerarCaixas()
 
-    print("--- Prisioneiros ---")
-    for p in prisioneiros:
-        print(f'Prisioneiro: {p.getNumber()}')
-
-    print("--- Caixas ---")
-    for c in caixas:
-        print(f'Caixa_id: {c.getId()}, Caixa_numero: {c.getNumber()}')
-    
-    print("--- iniciando teste ---")
     for p in prisioneiros:
         procurarNumeroDoPrisioneiro(p, caixas)
 
+    achou, nao_achou = 0, 0
+    for p in prisioneiros:
+        if p.achou_numero:
+            achou += 1
+        else:
+            nao_achou += 1
+    
+    _reset()
+    return achou
 
+def main():
+    numero_sucessos = 0
+    numero_falhas = 0
 
-main()
+    for i in range(1, 1001):
+        print(f'Iniciando teste {i}')
+        numero_achados = realizarTeste()
+        print(f'teste {i} {"Sucesso" if numero_achados == 100 else "Fracasso" } - numero achados: {numero_achados}\n')
+        if numero_achados == 100:
+            numero_sucessos += 1
+        else:
+            numero_falhas += 1
 
+    print("--- Resultados ---")
+    print(f'Sucessos: {numero_sucessos} - Fracassos {numero_falhas}')
+    
 
-#fix 50 caixas -> 100
-#exception when busca returns None. Shouldnt return none 
+if __name__ == '__main__':
+    main()
