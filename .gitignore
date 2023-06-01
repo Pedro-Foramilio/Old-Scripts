@@ -9,7 +9,8 @@ C/ProgramaçãoEstruturada/exemplo.c
 *.xlsx
 *.ipynb
 Salesforce/HelloWorldLightningWebComponent
-
+*.class
 *
 !*.*
 !*/
+.vscode
