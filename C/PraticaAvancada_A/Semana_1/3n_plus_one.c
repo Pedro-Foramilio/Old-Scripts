@@ -46,7 +46,15 @@ int cycleLen(int n)
 
 int maxCycleLen(int i, int j)
 {
+	if (i > j)
+	{
+		int temp = i;
+		i = j;
+		j = temp;
+	}
+
 	int max_cycle = cycleLen(i);
+
 	i++;
 	while( i <= j)
 	{
