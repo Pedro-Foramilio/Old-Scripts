@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 #include "pilha.h"
 
 typedef struct lista Lista;
@@ -25,6 +26,7 @@ void push(Pilha *p, float v)
     Lista *n = (Lista*) malloc(sizeof(Lista));
     n->info = v;
     n->prox = p->prim;
+    p->prim = n;
 }
 
 float pop(Pilha *p)
@@ -32,7 +34,11 @@ float pop(Pilha *p)
     Lista *t;
     float v;
 
-    if (esta_vazia(p)) exit(1);
+    if (esta_vazia(p)) 
+    {
+        printf("Lista Vazia!!!\n");
+        exit(1);
+    }
 
     t = p->prim;
     v = t->info;
