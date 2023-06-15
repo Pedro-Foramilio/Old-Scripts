@@ -72,3 +72,10 @@ Exemplo: ```TAD Ponto```
     Para construir um TAD, eh necessario:
     - arquivo ```ponto.h``` -> define tipos e o **prototipo** das funcoes
     - arquivo ```ponto.c``` -> implementacoes de fato
+
+## 3 Fila
+
+- FILA -> First In First Out
+- Pilha -> Last In, First Out
+
+
