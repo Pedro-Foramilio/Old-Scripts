@@ -1,0 +1,15 @@
+Defina e implemente o TAD Fila de Clientes, considerando que: 
+
+    a estrutura cliente conterá o nome do cliente (com até 80 caracteres) e o valor do depósito que o cliente quer fazer;
+    a estrutura fila usará lista  na qual cada nó contém a estrutura cliente.
+    a função atendimentoCaixaBanco receberá um ponteiro para Fila de clientes e um ponteiro para um inteiro que representa o endereço de uma variável que contabilizará o total de clientes atendidos, e retornará o total dos depósitos feitos pelos clientes nesta fila. Esta função também deve exibir o relatório de atendimento de cada cliente à medida que ele/a é atendido/a (contendo o seu lugar na fila, o seu nome e o valor depositado). 
+
+Como exemplo de uso da função atendimentoCaixaBanco, temos que para uma fila com os seguintes clientes: { {"Pedro", 1000}, {"Ana", 2000}, {"Alex", 3000}, {"Leo", 4000} } o seguinte output (com o relatório) é produzido:
+
+Cliente 1 - Pedro atendido, deposito de 1000 reais
+Cliente 2 - Ana atendido, deposito de 2000 reais
+Cliente 3 - Alex atendido, deposito de 3000 reais
+Cliente 4 - Leo atendido, deposito de 4000 reais
+Total de clientes: 4
+Deposito total: 10000 reais
+A função main deverá fazer a leitura dos dados de entrada dos clientes.
