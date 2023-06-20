@@ -59,6 +59,6 @@ char* inverte(char *s)
         s_inverted[i] = s[counter];
         counter++;
     }
-    s_inverted[len + 1] = '\0';
+    s_inverted[len] = '\0';
     return s_inverted;
 }
