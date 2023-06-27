@@ -34,7 +34,7 @@ void inserir(Lista *q, char a)
     }
 
     int insert_position = q->pos_last + 1;
-    if (q->pos_last == q->max_size - 1)
+    if (insert_position == q->max_size)
     {
         insert_position = 0;
     }
@@ -100,7 +100,15 @@ void remover(Lista *q)
 void imprimir(Lista *q)
 {
     int i;
-    for (i = 0; i < q->max_size; i++ )
+    printf("index :  ");
+    for (i = 0; i < q->max_size; i++)
+    {
+        printf("%d  ", i);
+    }
+    printf("\n");
+    printf("content:");
+
+    for (i = 0; i < q->max_size - 1; i++)
     {
         char c = q->vetor[i];
         if (c == '\0')
@@ -112,7 +120,19 @@ void imprimir(Lista *q)
             printf(" %c ", c);
         }
     }
+    char c = q->vetor[q->max_size - 1];
+    if (c == '\0')
+    {
+        printf(" .");
+    }
+    else
+    {
+        printf(" %c", c);
+    }
+
     printf("\n");
+    printf("         H: %d T: %d\n\n", q->pos_first, (q->pos_last+1)%q->max_size);
+    return;
 }
 
 int main()
@@ -126,9 +146,17 @@ int main()
         char op = ops[0];
         while (op != '\0')
         {
-            if (op == '-') remover(q);
-            else inserir(q, op);
-            imprimir(q);
+            if (op == '-')
+            {
+                printf("dequeued %c\n", q->vetor[q->pos_first]);
+                remover(q);
+            } 
+            else
+            {
+                printf("enqueued %c\n", op);
+                inserir(q, op);
+            } 
+                imprimir(q);
             op = ops[++i];
         }
     }
