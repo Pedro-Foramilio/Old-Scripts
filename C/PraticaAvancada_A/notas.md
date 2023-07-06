@@ -155,6 +155,23 @@ int main(int argc, char** argv)
 - argv:
     vetor de cadeia de caracteres que armazena os nomes passados como argumento
 
+## 5 Arvores
 
+Um conjunto de nos tal que:
+    - Existe um no r, denominado **raiz**, com zero ou mais sub-arvores cujas raizes estao ligadas a r
+    - Os nos raizes destas sub-arvores sao os **filhos** de r
+    - As **folhas** ou **nos externos** sao nos sem filhos
 
+- Propriedade fundamental de arvores: **so existe um caminho da raiz para qualquer no**
+
+- **Altura de uma arvore**: comprimento do caminho mais longo da raiz ate uma das folhas
+    - Altura de uma arvore vazia eh `-1`
+- **Nivel de um no**: a raiz esta no `nivel 0`
+    - O ultimo nivel da arvore eh a altura da arvore
+- Arvore cheia: n_nos = 2^(h+1) - 1
+- **Arvore Degenerada**: todos os nos internos tem uma unica sub-arvore associada
+
+### Arvore Binaria
+
+Cada no contem zero, um ou dois filhos
     
