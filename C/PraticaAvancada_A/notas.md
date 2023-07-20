@@ -172,6 +172,58 @@ Um conjunto de nos tal que:
 - **Arvore Degenerada**: todos os nos internos tem uma unica sub-arvore associada
 
 ### Arvore Binaria
-
 Cada no contem zero, um ou dois filhos
-    
+
+## 6 Hash Table
+
+Necessita de mais memoria, proporcional ao numero de elementos armazenados
+
+- **Funcao de dispersao**
+    - Mapeaia uma chave de busca a um indice na tabela
+    - Colisao: duas ou mais chaves apontando para o mesmo indice
+    - Deve ser eficientemente avaliada e e as chaves devem ser bem espalhadas
+
+- **Dimensao da Tabela**
+    - Deve ser escolhida para diminuir o numero de colisoes
+    - Costuma ser um valor primo
+    - **Taxa de Ocupacao**
+        - Deve ser inferior a 75%
+        - 50% tras bons resultados
+        - 25% ou menos representa gasto excessivo de memoria
+
+- **Tratamento de Colisao -> Estrategia**
+    - Uso da primeira posicao consecutiva livre
+        - tende a concentrar os lugares ocupados na tabela
+    - Uso de uma segunda funcao de dispersao
+        - evita a concentracao de posicoes
+    - Uso de listas encadeadas
+        - Cada elemento da tabela hash representa um ponteiro para uma lista encadeada
+
+## Heap (binario)
+
+Arvore binaria completa
+- *Min* heap: cada no eh *menor* que seus filhos
+- *Max* heap: cada no eh *maior* que seus filhos
+
+- **Insert**
+    - Insira o elemento no final do heap e o faca subir ate a posicao correta
+    - Compare com o elemento pai:
+        - Se estiver em ordem, terminou
+        - Se nao estiver, troque com o pai e repira ate terminar ou chegar na raiz
+
+- **Remove**
+    - Retira-se sempre a raiz
+    - Coloque na raiz o ultimo elemento do heap e faca-o descer ate a posicao correta
+    - Troque com o maior filho ate estar em ordem ou chegar na folha
+
+## Otimizacao Combinatoria - Introducao
+
+Se as variaveis sao continuas, o problema eh de otimizacao continua. Se as variaveis sao discretas, o problema eh conhecido como otimizacao combinatoria
+
+- **Definicao**
+    - Uma instancia de um problema de otimizacao eh um par(F,c) onde F eh um conjunto cujos elementos sao chamados de solucoes viaveis e c:F->R uma funcao de custo
+    - O Problema eh encontrar um f* em F para o qual c(f*) <= c(y) para todo y em F
+    - f* eh solucao otima
+
+    - **Um problema de otimizacao eh um conjunto de instancias**
+        - Uma *instancia* contem o conjunto de dados de entrada que fornecem uma solucao
