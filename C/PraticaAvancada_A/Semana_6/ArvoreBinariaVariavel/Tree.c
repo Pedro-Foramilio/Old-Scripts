@@ -73,7 +73,7 @@ int height(Tree *t)
         int h = height(p);
         if (h > hmax) hmax = h;
     }
-    return hmax;
+    return hmax +1;
 }
 
 int static max2(int a, int b) { return a > b ? a : b; }
