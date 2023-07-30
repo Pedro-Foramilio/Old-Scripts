@@ -112,6 +112,16 @@ int custo_maior_caminho(Node *node)
     return max_sum;
 }
 
+int maior_caminho(Node *node)
+{
+    if (node == NULL) return 0;
+    int max_sum = 0;
+    int max_len = 0;
+
+    somaCaminhoLongo(node, 0, 0, &max_len, &max_sum);
+    return max_len;
+}
+
 int main(void)
 {
     Node *tree1 = inicializa_arv(
@@ -138,12 +148,46 @@ int main(void)
             )    
         );
     
-    print_preOrdem(tree1);
+    Node *tree2 = inicializa_arv(
+        4,
+            inicializa_arv(4,
+                inicializa_arv(3,
+                    inicializa_arv(1, NULL, NULL),
+                    inicializa_arv(1, NULL, NULL)
+                    
+                ),
+                inicializa_arv(3,
+                    inicializa_arv(1, NULL, NULL),
+                    NULL
+                )
+            ),
+            inicializa_arv(3,
+                inicializa_arv(1, 
+                    NULL, 
+                    NULL
+                ),
+                inicializa_arv(1,
+                    NULL,
+                    NULL
+                )
+            )    
+        );
+    
     int custo = maior_custo(tree1);
-    int custo_m_c = custo_maior_caminho(tree1);
-    printf("\nmaior custo: %d\n", custo);
-    printf("maior caminho (custo): %d\n", custo_m_c);
+    int caminho = maior_caminho(tree1) -1;
+    
+    int custo2 = maior_custo(tree2);
+    int caminho2 = maior_caminho(tree2) -1;
+
+    printf("Arvore 1:\n");
+    printf("altura = %d\n", caminho);
+    printf("soma dos pesos do maior caminho = %d\n", custo);
     tree_free(tree1);
+
+    printf("Arvore 2:\n");
+    printf("altura = %d\n", caminho2);
+    printf("soma dos pesos do maior caminho = %d\n", custo2);
+    tree_free(tree2);
 
     return 0;
 }
