@@ -3,6 +3,7 @@
 #include <assert.h>
 
 int tempo = 0; //global
+int posicaoOrdenacao = -1;
 
 typedef struct _viz Viz;
 struct _viz 
@@ -18,8 +19,6 @@ typedef struct _grafo
     int na; //numero arestas
     Viz **viz; // viz[i] aponta para a lista de verticies vizinhos de i
 } Grafo;
-
-void dfs_visit(Grafo *grafo, int v, int *predecessor, int *d, int *f, char *cor);
 
 static Viz* criaViz(Viz *head, int noj, float peso)
 {
@@ -110,26 +109,25 @@ void grafoMostra(char *title, Grafo *grafo)
     }
 }
 
-void dfs_visit(Grafo *grafo, int v, int *predecessor, int *d, int *f, char *cor)
+void dfs_visit(Grafo *grafo, int v, int *predecessor, int *d, int *f, char *cor, int *ordenacao)
 {
     cor[v] = 'C';
     tempo++;
     d[v] = tempo;
-	printf("v: %3d %3c \n", v, cor[v]);
 
     for (Viz *w = grafo->viz[v]; w != NULL; w = w->prox)
     {
         if (cor[w->noj] == 'B')
         {
             predecessor[w->noj] = v;
-            printf("\t%3d - %3d: %3c predecessor: %3d\n", v, w->noj, cor[w->noj], predecessor[w->noj]);
-            dfs_visit(grafo, w->noj, predecessor, d, f, cor);
+            dfs_visit(grafo, w->noj, predecessor, d, f, cor, ordenacao);
         }
     }
 
     cor[v] = 'P';
     f[v] = ++tempo;
-    printf("%3d:>(%3d,%3d,%3c) \n", v, d[v], f[v], cor[v]);
+    ordenacao[posicaoOrdenacao] = v;
+    posicaoOrdenacao--;
 }
 
 void dfs(Grafo *grafo)
@@ -139,6 +137,9 @@ void dfs(Grafo *grafo)
 	int d[grafo->nv];
 	int f[grafo->nv];
 	char cor[grafo->nv];
+    int ordenacao[grafo->nv];
+    posicaoOrdenacao = grafo->nv -1;
+
 
     for (int i = 0; i < grafo->nv; i++)
     {
@@ -148,24 +149,19 @@ void dfs(Grafo *grafo)
 
     for (int i = 0; i < grafo->nv; i++)
     {
-        if (cor[i] == 'B') dfs_visit(grafo, i, predecessor, d, f, cor);
+        if (cor[i] == 'B') dfs_visit(grafo, i, predecessor, d, f, cor, ordenacao);
     }
 
-    printf("predecessor:\n");
-    printf("[");
     for (int i = 0; i < grafo->nv; i++)
     {
-        printf("%d, ", predecessor[i]);
+        printf("%d ", ordenacao[i]);
     }
-    printf("]\n");
-
+    printf("\n");
 }
 
 int main()
 {
     Grafo *g = grafoLe("grafo2.dat");
-    char texto[] = "\nMeu grafo\n";
-    grafoMostra(texto, g);
     dfs(g);
     return 0;
 }

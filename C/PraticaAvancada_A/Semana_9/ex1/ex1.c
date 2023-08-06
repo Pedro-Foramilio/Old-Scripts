@@ -49,16 +49,18 @@ static Grafo* criaGrafo(int nv, int na)
 
 Grafo* grafoLe(char *filename)
 {
-    FILE *arq = fopen(filename, "rt");
+    //FILE *arq = fopen(filename, "rt");
     int nv, na, no1, no2 = 0;
     float peso = 0;
     Grafo *novo;
 
-    fscanf(arq, "%d %d", &nv, &na);
+    //fscanf(arq, "%d %d", &nv, &na);
+    scanf("%d %d", &nv, &na);
     novo = criaGrafo(nv, na);
     assert(novo);
     
-    while (fscanf(arq, "%d %d %f", &no1, &no2, &peso) == 3)
+    //while (fscanf(arq, "%d %d %f", &no1, &no2, &peso) == 3)
+    while (scanf("%d %d %f", &no1, &no2, &peso) != EOF)
     {
         novo->viz[no1] = criaViz(novo->viz[no1], no2, peso);
         //novo->viz[no2] = criaViz(novo->viz[no2], no1, peso);
@@ -115,21 +117,18 @@ void dfs_visit(Grafo *grafo, int v, int *predecessor, int *d, int *f, char *cor)
     cor[v] = 'C';
     tempo++;
     d[v] = tempo;
-	printf("v: %3d %3c \n", v, cor[v]);
 
     for (Viz *w = grafo->viz[v]; w != NULL; w = w->prox)
     {
         if (cor[w->noj] == 'B')
         {
             predecessor[w->noj] = v;
-            printf("\t%3d - %3d: %3c predecessor: %3d\n", v, w->noj, cor[w->noj], predecessor[w->noj]);
             dfs_visit(grafo, w->noj, predecessor, d, f, cor);
         }
     }
 
     cor[v] = 'P';
     f[v] = ++tempo;
-    printf("%3d:>(%3d,%3d,%3c) \n", v, d[v], f[v], cor[v]);
 }
 
 void dfs(Grafo *grafo)
@@ -151,13 +150,19 @@ void dfs(Grafo *grafo)
         if (cor[i] == 'B') dfs_visit(grafo, i, predecessor, d, f, cor);
     }
 
-    printf("predecessor:\n");
-    printf("[");
+
+    int haCarentes = 0;
     for (int i = 0; i < grafo->nv; i++)
     {
-        printf("%d, ", predecessor[i]);
+        int aux = predecessor[i];
+        if (aux == -1)
+        {
+            haCarentes = 1;
+            printf("%d ", aux);
+        }
     }
-    printf("]\n");
+
+    if (! haCarentes) printf("Nao ha vertices carentes\n");
 
 }
 
@@ -165,7 +170,6 @@ int main()
 {
     Grafo *g = grafoLe("grafo2.dat");
     char texto[] = "\nMeu grafo\n";
-    grafoMostra(texto, g);
     dfs(g);
     return 0;
 }
