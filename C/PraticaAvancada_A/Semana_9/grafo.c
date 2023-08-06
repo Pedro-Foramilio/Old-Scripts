@@ -90,6 +90,16 @@ void grafoMostra (char* title, Grafo * grafo) {
     }
   }
 }
+
+void DFS_visit(Grafo *grafo, int v, int *visited)
+{
+    visited[v] = 1;
+    for (Viz *w = grafo->viz[v]; w != NULL; w = w->prox)
+    {
+        if (visited[w->noj] == -1) DFS_visit(grafo, w->noj, visited);
+    }
+}
+
 int main()
 {
         Grafo *g = grafoLe("grafo.dat");

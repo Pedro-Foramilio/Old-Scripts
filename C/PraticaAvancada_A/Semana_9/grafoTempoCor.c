@@ -60,7 +60,7 @@ Grafo* grafoLe(char *filename)
     
     while (fscanf(arq, "%d %d %f", &no1, &no2, &peso) == 3)
     {
-        novo->viz[no1] = criaViz(novo->viz[no2], no1, peso);
+        novo->viz[no1] = criaViz(novo->viz[no1], no2, peso);
         //novo->viz[no2] = criaViz(novo->viz[no2], no1, peso);
     }
     return novo;
@@ -154,7 +154,7 @@ void dfs(Grafo *grafo)
 
 int main()
 {
-    Grafo *g = grafoLe("grafo.dat");
+    Grafo *g = grafoLe("grafo2.dat");
     char texto[] = "\nMeu grafo\n";
     grafoMostra(texto, g);
     dfs(g);
