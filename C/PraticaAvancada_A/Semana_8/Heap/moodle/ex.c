@@ -1,6 +1,13 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include "Heap.h"
+
+typedef struct Heap Heap;
+Heap* heap_cria(int max);
+void heap_insere(Heap *heap, int prioridade);
+int heap_remove(Heap *heap);
+void heap_liberate(Heap *heap);
+Heap* heap_constroi(int prioridades[], int tam);
+void print_heap(Heap *heap);
 
 struct Heap {
     int max; //tamanho maximo do heap
@@ -117,11 +124,30 @@ void print_heap(Heap *heap)
     printf("[");
     int i = 0;
 
-    while (i < heap->max - 2)
+    while (i < heap->max - 1)
     {
         printf("%d, ", heap->prioridade[i]);
         i++;
     }
-    printf("%d, ", heap->prioridade[i+1]);
     printf("%d]\n", heap->prioridade[i]);
+}
+
+int main()
+{
+
+    int n;
+    scanf("%d", &n);
+
+    int prioridades[n];
+
+    for (int i = 0; i < n; i++)
+    {
+        scanf("%d", &prioridades[i]);
+    }
+
+    Heap *heap = heap_constroi(prioridades, n);
+
+    print_heap(heap);
+
+    return 0;
 }
