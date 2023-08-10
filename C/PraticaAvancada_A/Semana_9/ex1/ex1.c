@@ -2,8 +2,6 @@
 #include <stdlib.h>
 #include <assert.h>
 
-int tempo = 0; //global
-
 typedef struct _viz Viz;
 struct _viz 
 {
@@ -18,8 +16,6 @@ typedef struct _grafo
     int na; //numero arestas
     Viz **viz; // viz[i] aponta para a lista de verticies vizinhos de i
 } Grafo;
-
-void dfs_visit(Grafo *grafo, int v, int *predecessor, int *d, int *f, char *cor);
 
 static Viz* criaViz(Viz *head, int noj, float peso)
 {
@@ -49,18 +45,18 @@ static Grafo* criaGrafo(int nv, int na)
 
 Grafo* grafoLe(char *filename)
 {
-    //FILE *arq = fopen(filename, "rt");
+    FILE *arq = fopen(filename, "rt");
     int nv, na, no1, no2 = 0;
     float peso = 0;
     Grafo *novo;
 
-    //fscanf(arq, "%d %d", &nv, &na);
-    scanf("%d %d", &nv, &na);
+    fscanf(arq, "%d %d", &nv, &na);
+    //scanf("%d %d", &nv, &na);
     novo = criaGrafo(nv, na);
     assert(novo);
     
-    //while (fscanf(arq, "%d %d %f", &no1, &no2, &peso) == 3)
-    while (scanf("%d %d %f", &no1, &no2, &peso) != EOF)
+    while (fscanf(arq, "%d %d %f", &no1, &no2, &peso) == 3)
+    //while (scanf("%d %d %f", &no1, &no2, &peso) != EOF)
     {
         novo->viz[no1] = criaViz(novo->viz[no1], no2, peso);
         //novo->viz[no2] = criaViz(novo->viz[no2], no1, peso);
@@ -90,86 +86,51 @@ Grafo* grafoLibera(Grafo *grafo)
     return NULL;
 }
 
-void grafoMostra(char *title, Grafo *grafo)
+void imprimeCarantes(Grafo *grafo)
 {
-    int i;
-    if (title)
-        printf("%s", title);
-    if (grafo)
-    {
-        printf("NV: %d, NA: %d\n", grafo->nv, grafo->na);
-        for (i = 0; i < grafo->nv; i++)
-        {
-            Viz *viz = grafo->viz[i];
-            printf("[%d]->", i);
-            while (viz)
-            {
-                printf("{%d, %g}->", viz->noj, viz->peso);
-                viz = viz->prox;
-            }
-            printf("NULL\n");
-        }
-    }
-}
-
-void dfs_visit(Grafo *grafo, int v, int *predecessor, int *d, int *f, char *cor)
-{
-    cor[v] = 'C';
-    tempo++;
-    d[v] = tempo;
-
-    for (Viz *w = grafo->viz[v]; w != NULL; w = w->prox)
-    {
-        if (cor[w->noj] == 'B')
-        {
-            predecessor[w->noj] = v;
-            dfs_visit(grafo, w->noj, predecessor, d, f, cor);
-        }
-    }
-
-    cor[v] = 'P';
-    f[v] = ++tempo;
-}
-
-void dfs(Grafo *grafo)
-{
-    if (!grafo) return;
-    int predecessor[grafo->nv];
-	int d[grafo->nv];
-	int f[grafo->nv];
-	char cor[grafo->nv];
+    int ehCarente[grafo->nv];
 
     for (int i = 0; i < grafo->nv; i++)
     {
-        predecessor[i] = -1;
-        cor[i] = 'B';
+        ehCarente[i] = 1;
     }
 
     for (int i = 0; i < grafo->nv; i++)
     {
-        if (cor[i] == 'B') dfs_visit(grafo, i, predecessor, d, f, cor);
-    }
-
-
-    int haCarentes = 0;
-    for (int i = 0; i < grafo->nv; i++)
-    {
-        int aux = predecessor[i];
-        if (aux == -1)
+        for (Viz *w = grafo->viz[i]; w != NULL; w = w->prox)
         {
-            haCarentes = 1;
-            printf("%d ", aux);
+            ehCarente[w->noj] = 0;
         }
     }
 
-    if (! haCarentes) printf("Nao ha vertices carentes\n");
+    int aux = 0;
+    for (int i = 0; i < grafo->nv; i++)
+    {
+        if (ehCarente[i])
+        {
+            aux = 1;
+            printf("%d ", i);
+        }
+    }
+
+    if (aux)
+    {
+        printf("\n");
+    }
+    else
+    {
+        printf("Nao ha vertices carentes\n");
+    }
 
 }
 
 int main()
 {
-    Grafo *g = grafoLe("grafo2.dat");
-    char texto[] = "\nMeu grafo\n";
-    dfs(g);
+    Grafo *g1 = grafoLe("grafo.dat");
+    Grafo *g2 = grafoLe("grafo2.dat");
+    
+    imprimeCarantes(g1);
+    imprimeCarantes(g2);
+
     return 0;
 }
