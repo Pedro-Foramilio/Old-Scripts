@@ -72,6 +72,17 @@ def realizarTeste():
     return achou
 
 def main():
+    """
+    This function simulates a prisoner's dilemma game. 
+    It generates 100 prisoners and 100 boxes, where each 
+    prisoner has a unique number and each box has a unique number. 
+    The prisoners are given the opportunity to find their number 
+    in a randomly chosen box. If they find their number, they are 
+    released from prison. If they do not find their number, 
+    they are sent back to prison. This process is repeated until
+    all prisoners are released or until all attempts have been made.
+    The function returns the number of successful escapes.
+    """
     numero_sucessos = 0
     numero_falhas = 0
 
